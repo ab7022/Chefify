@@ -1,3 +1,44 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.bg-image {
+    background-image: url(../src/assets/bg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-top: 70px;
+    filter: drop-shadow(10px 10px 40px rgb(255, 225, 169));
+    max-width: 40%;
+    max-height: 40%;
+    /* margin-left: 40px; */
+}
+.bg-image2{
+    background-image: url(../src/assets/bg.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-top: 120px;
+    filter: drop-shadow(1px 1px 30px rgb(241, 157, 0));
+    max-width: 100%;
+    max-height: 100%;
+    rotate: 16deg;
+
+}
+/* .glass {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background-color: rgba(117, 117, 117, 0.75);
+    border: 1px solid rgba(209, 213, 219, 0.3);
+} */    
+
+.font-style{
+    font-family: "Bebas Neue", sans-serif;
+    
+}
+.underline-orange{
+    text-decoration:underline;
+    /* text-decoration: underline; */
+    text-decoration-color: rgb(241, 119, 19)
+}
+.bg-veg{
+    background-image: url(../src/assets/carrot.png);
+}
