@@ -23,6 +23,19 @@
     rotate: 16deg;
 
 }
+.bg-image-md {
+    background-image: url(../src/assets/bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: drop-shadow(10px 10px 40px rgb(41, 41, 41));
+    width: 500px;
+    height: 500px;
+    margin-left: 30%;
+}
+.overflow-hidden {
+    overflow: hidden;
+  }
+  
 /* .glass {
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
