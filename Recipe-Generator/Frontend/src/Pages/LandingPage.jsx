@@ -1,7 +1,10 @@
 import  {useEffect} from "react";
 import "../App.css";
+import Navbar from "../components/Navbar";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate()
     useEffect(() => {
       // Add overflow-hidden class to the body for small screens
       if (window.innerWidth > 768) {
@@ -21,46 +24,13 @@ const LandingPage = () => {
 
       {/* Left half of the screen */}
       <div className="flex flex-col justify-start h-screen w-screen md:w-1/2">
-        <header className="flex justify-between items-center md:p-8 md:px-24 fixed top-0 bg-gray-100 w-full shadow-lg hidden md:block md:flex">
-          <div className="logo text-4xl font-bold">Foodiee</div>
-          <nav className="flex flex-row space-x-6 font-medium">
-            <a href="#" className="nav-link hover:underline">
-              Home
-            </a>
-            <a
-              href="#"
-              className="nav-link hover:underline hover:text-orange-500"
-            >
-              Menu
-            </a>
-            <a
-              href="#"
-              className="nav-link hover:underline hover:text-orange-500"
-            >
-              Pricing
-            </a>
-            <a
-              href="#"
-              className="nav-link hover:underline hover:text-orange-500"
-            >
-              About Us
-            </a>
-          </nav>
-          <div>
-            <a
-              href="#"
-              className="nav-link bg-orange-500 hover:bg-orange-600 py-3 px-5 text-white rounded-md font-semibold"
-            >
-              Contact Us
-            </a>
-          </div>
-        </header>
+       <Navbar/>
 
-        <div className="fixed md:static bottom-20 scroll-my-0">
+        <div className="fixed md:static bottom-0 scroll-my-0">
 
         <div className="flex flex-col justify-start mx-4 md:mt-32">
           <div className="text-black px-8">
-            <h1 className="text-6xl tracking-wider md:tracking-normal md:text-7xl lg:text-9xl font-style p-2 md:p-8 md:mt-24">
+            <h1 className="text-6xl tracking-normal md:tracking-normal md:text-7xl lg:text-9xl font-style p-2 md:p-8 md:mt-24">
               Get the <span className="underline-orange">food</span> recipe more
               easily!
             </h1>
@@ -94,7 +64,9 @@ const LandingPage = () => {
 
             </div>
             <div className="hidden md:block">
-                <button
+                <button onClick={()=>{
+                  navigate("/a")
+                }}
                   className="bg-orange-500 text-white border py-2 px-6 md:px-8 rounded-lg border-transparent ml-14 mt-4 font-extrabold text-lg shadow mx-0 hover:bg-orange-600"
                   aria-label="Login"
                 >

@@ -55,3 +55,18 @@
 .bg-veg{
     background-image: url(../src/assets/carrot.png);
 }
+
+.glassmorphism-bg {
+    background: rgba(255, 255, 255, 0.9);
+    /* backdrop-filter: blur(100px); */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    /* backdrop-filter: blur(20px); */
+  }
+  
+.glassmorphism-secondary{
+    background: rgba(243, 244, 246, 1);
+    /* backdrop-filter: blur(100px); */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
