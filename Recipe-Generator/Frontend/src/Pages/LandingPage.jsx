@@ -29,8 +29,8 @@ const LandingPage = () => {
         <div className="fixed md:static bottom-0 scroll-my-0">
 
         <div className="flex flex-col justify-start mx-4 md:mt-32">
-          <div className="text-black px-8">
-            <h1 className="text-6xl tracking-normal md:tracking-normal md:text-7xl lg:text-9xl font-style p-2 md:p-8 md:mt-24">
+          <div className="text-black px-4 md:px-8">
+            <h1 className="text-6xl tracking-widest md:tracking-normal md:text-7xl lg:text-9xl font-style p-2 md:p-8 md:mt-24">
               Get the <span className="underline-orange">food</span> recipe more
               easily!
             </h1>
@@ -49,14 +49,18 @@ const LandingPage = () => {
             </div>
             <div className="md:hidden">
               <button
-                className="bg-orange-500 text-white border w-full py-2 px-6 md:px-8 rounded-lg border-transparent font-extrabold text-lg shadow mb-4 hover:bg-orange-600"
+                className="bg-orange-500 text-white border w-full py-2 px-6 md:px-6 rounded-lg border-transparent font-extrabold text-lg shadow mb-4 hover:bg-orange-600" onClick={()=>{
+                  navigate("/signin")
+                }}
                 aria-label="Login"
               >
                 Login
               </button>
               <button
-                className="text-lg bg-slate-50 text-orange-500 border w-full py-2 px-6 md:px-8 rounded-lg font-extrabold border-transparent shadow hover:bg-gray-100 mb-6"
-                aria-label="Register"
+                className="text-lg bg-white  text-orange-500 border w-full py-2 px-6 md:px-8 rounded-lg font-extrabold border-transparent shadow hover:bg-gray-100 mb-6"
+                aria-label="Register"  onClick={()=>{
+                  navigate("/signup")
+                }}
               >
                 Register
               </button>

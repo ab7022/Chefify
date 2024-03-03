@@ -7,21 +7,21 @@ export default function Navbar() {
           Home
         </a>
         <a href="#/a" className="nav-link hover:underline hover:text-orange-500">
-          Recipes
+          Explore Recipes
         </a>
         <a href="#/a" className="nav-link hover:underline hover:text-orange-500">
           Add Recipe
         </a>
         <a href="#" className="nav-link hover:underline hover:text-orange-500">
-          Profile
+          My Profile
         </a>
       </nav>
       <div>
         <a
           href="#/a"
-          className="nav-link bg-orange-500 hover:bg-orange-600 py-3 px-5 text-white rounded-md font-semibold"
+          className="nav-link bg-orange-500 hover:bg-orange-600 py-3 px-7 text-white rounded-md font-semibold"
         >
-          Contact Us
+          Login
         </a>
       </div>
     </header>
