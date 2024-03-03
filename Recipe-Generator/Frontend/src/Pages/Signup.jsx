@@ -7,7 +7,7 @@ const Signup = () => {
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <div className="text-center mb-6">
             <h1 className="text-4xl font-extrabold text-orange-500 mb-2">
-             Foodiee
+              Foodiee
             </h1>
             <p className="text-gray-500">Explore and Share Delicious Recipes</p>
           </div>
@@ -45,7 +45,7 @@ const Signup = () => {
                 className="w-full p-3 rounded-md border-gray-300 focus:border focus:bg-gray-50 shadow-sm bg-gray-100"
               />
             </div>
-            
+
             <button className="bg-orange-500 text-lg font-bold text-white p-3 rounded-xl w-full hover:bg-orange-600 transition duration-300">
               Sign Up
             </button>
@@ -53,11 +53,13 @@ const Signup = () => {
 
           <div className="flex justify-between items-center mt-4">
             <p className="text-gray-500 text-sm mx-12 md:mx-16">
-              Already a member? <a href="#/signin" className="text-black font-bold underline">Log in here</a>.
+              Already a member?{" "}
+              <a href="#/signin" className="text-black font-bold underline">
+                Log in here
+              </a>
+              .
             </p>
           </div>
-
-         
         </div>
       </div>
     </div>

@@ -6,13 +6,22 @@ export default function Navbar() {
         <a href="#/a" className="nav-link hover:underline">
           Home
         </a>
-        <a href="#/a" className="nav-link hover:underline hover:text-orange-500">
+        <a
+          href="#/explore"
+          className="nav-link hover:underline hover:text-orange-500"
+        >
           Explore Recipes
         </a>
-        <a href="#/a" className="nav-link hover:underline hover:text-orange-500">
+        <a
+          href="#/addrecipe"
+          className="nav-link hover:underline hover:text-orange-500"
+        >
           Add Recipe
         </a>
-        <a href="#" className="nav-link hover:underline hover:text-orange-500">
+        <a
+          href="#/profile"
+          className="nav-link hover:underline hover:text-orange-500"
+        >
           My Profile
         </a>
       </nav>
@@ -27,3 +36,8 @@ export default function Navbar() {
     </header>
   );
 }
+
+
+
+
+

@@ -3,19 +3,18 @@ import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import breakfast from "../assets/3924822_12690.png";
-import burger from "../assets/78178774_Fresh beef burger isolated -4.png";
 import biryani from "../assets/biryani.png";
+import tea from "../assets/tea.png";
 import momos from "../assets/momos.png";
 import roll from "../assets/roll.png";
-import tea from "../assets/tea.png";
 import Footer from "../components/Footer";
 
-export default function Dashboard() {
+export default function Explore() {
   const RecipeCard = ({ image, name, time }) => (
     <div className="recipe-card min-w-32 bg-slate-200 rounded-md overflow-hidden">
       <div className="bg-white">
         <img
-          src={image} // Replace with the actual image source
+          src={image}
           alt={name}
           className="w-full object-cover mb-0 rounded-t-md justify-center"
         />
@@ -33,7 +32,7 @@ export default function Dashboard() {
         <Navbar />
 
         <div className="max-w-4xl mx-auto">
-          <p className="text-gray-700 font-medium text-2xl">Good Morning</p>
+          <p className="text-gray-700 font-medium text-2xl">Good Evening</p>
           <h1 className="text-4xl font-bold mb-4">Discover New Recipes</h1>
           <div className="mt-3 w-full flex flex-row items-center">
             <input
@@ -71,7 +70,7 @@ export default function Dashboard() {
               </div>
               <div className="mr-2 min-w-20">
                 <div className="bg-white rounded-full shadow-lg p-2">
-                  <img src={burger} alt="" width={120} />
+                  <img src={momos} alt="" width={120} />
                 </div>
                 <p className="text-center p-1.5">Snacks</p>
               </div>
@@ -100,9 +99,9 @@ export default function Dashboard() {
           <section className="mt-8 glassmorphism-secondary p-4  bg-gray-50">
             <h2 className="text-xl font-bold mb-4">Recent Recipes</h2>
             <div className="flex flex-row flex-nowrap overflow-x-auto gap-4 mb-2">
-              <RecipeCard image={burger} name="Veg Burger" time="13 mins" />
-              <RecipeCard image={roll} name="Chicken Roll" time="13 mins" />
               <RecipeCard image={momos} name="Chicken Momo" time="13 mins" />
+              <RecipeCard image={roll} name="Chicken Roll" time="13 mins" />
+              <RecipeCard image={tea} name="Masala Tea" time="13 mins" />
             </div>
           </section>
           <div className="glassmorphism-secondary flex flex-col justify-center p-4  mt-8 mb-24">

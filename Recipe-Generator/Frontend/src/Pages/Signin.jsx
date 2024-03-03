@@ -14,20 +14,18 @@ const Signin = () => {
             </p>
           </div>
 
-    
-
           <input
             type="text"
             id="email"
             placeholder="Enter your email"
             className="w-full p-3 rounded-md border-gray-300 focus:border focus:bg-gray-50 shadow-sm bg-gray-100"
           />
-              <input
-                type="text"
-                id="password"
-                placeholder="Enter your password"
-                className="w-full p-3 rounded-md border-gray-300 focus:border focus:bg-gray-50 shadow-sm my-4 bg-gray-100"
-              />
+          <input
+            type="text"
+            id="password"
+            placeholder="Enter your password"
+            className="w-full p-3 rounded-md border-gray-300 focus:border focus:bg-gray-50 shadow-sm my-4 bg-gray-100"
+          />
           <button className="bg-orange-500 font-bold text-white p-3 rounded-xl w-full hover:bg-orange-600 transition duration-300 text-lg">
             Sign In
           </button>
@@ -35,7 +33,10 @@ const Signin = () => {
           <div className="flex justify-between items-center mt-4">
             <p className="text-gray-500 text-sm mx-4 md:mx-36">
               Don't have an account?{" "}
-              <a href="#/signup" className=" font-bold underline text-orange-500">
+              <a
+                href="#/signup"
+                className=" font-bold underline text-orange-500"
+              >
                 Create one here
               </a>
               .
