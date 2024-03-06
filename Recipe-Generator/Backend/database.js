@@ -32,7 +32,7 @@ mongoose
       required: [true, "directions is required"],
     },
   });
-  const comments = new mongoose.Schema({
+  const commentSchema = new mongoose.Schema({
     userId:{
       type: mongoose.Schema.Types.ObjectId, // Assuming userId is an ObjectId
 
@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Name is required"],
   },
-  email: {
+  username: {
     type: String,
     unique: true,
     required: [true, "Email is required"],

@@ -1,6 +1,27 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+  const navigate = useNavigate()
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  console.log(name);
+  console.log(username);
+  console.log(password);
+  const signup = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/signup",
+        { name, username, password }
+      );
+
+      console.log(response.data);
+        navigate("/profile")
+    } catch (error) {
+      console.error("Error during signup:", error);
+    }
+  };
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-b from-white via-gray-100 to-gray-200">
       <div className="m-6">
@@ -19,7 +40,11 @@ const Signup = () => {
               <input
                 type="text"
                 id="name"
+                name="name"
                 placeholder="John Doe"
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
                 className="w-full p-3 rounded-md border-gray-300 focus:border focus:bg-gray-50 shadow-sm bg-gray-100"
               />
             </div>
@@ -30,6 +55,10 @@ const Signup = () => {
               <input
                 type="text"
                 id="email"
+                name="username"
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
                 placeholder="john@example.com"
                 className="w-full p-3 rounded-md border-gray-300 focus:border focus:bg-gray-50 shadow-sm bg-gray-100"
               />
@@ -39,6 +68,10 @@ const Signup = () => {
                 Password
               </label>
               <input
+                name="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 type="password"
                 id="password"
                 placeholder="Create a strong password"
@@ -46,7 +79,8 @@ const Signup = () => {
               />
             </div>
 
-            <button className="bg-orange-500 text-lg font-bold text-white p-3 rounded-xl w-full hover:bg-orange-600 transition duration-300">
+            <button className="bg-orange-500 text-lg font-bold text-white p-3 rounded-xl w-full hover:bg-orange-600 transition duration-300"
+            type="button" onClick={signup}>
               Sign Up
             </button>
           </form>

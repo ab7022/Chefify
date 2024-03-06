@@ -7,6 +7,7 @@ export default {
     "./src/**/*.tsx",
 
   ],
+  
   theme: {
     extend: {
       colors:{
