@@ -1,9 +1,9 @@
 export default function Navbar() {
   return (
-    <header className="flex justify-between items-center md:p-8 md:px-24 fixed top-0 bg-gray-100 w-full shadow-lg hidden md:block md:flex">
+    <header className=" justify-between items-center md:p-8 md:px-24 fixed top-0 bg-gray-100 w-full shadow-lg hidden  md:flex">
       <div className="logo text-5xl font-bold">Foodiee</div>
       <nav className="flex flex-row space-x-6 font-medium text-xl">
-        <a href="#/a" className="nav-link hover:underline">
+        <a href="#/" className="nav-link hover:underline">
           Home
         </a>
         <a

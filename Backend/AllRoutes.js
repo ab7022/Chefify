@@ -20,10 +20,8 @@ router.post("/signup", async function signup(req, res) {
     console.log("user saved successfully");
   });
   res.json({
-    msg: "saves successfully",
-    name,
-    username,
-    password,
+    msg: "Login successful",
+
   });
 });
 router.post("/signin", async function signin(req, res) {
@@ -34,8 +32,7 @@ router.post("/signin", async function signin(req, res) {
       if (existingUser.password == password) {
         return res.json({
           msg: "Login successful",
-          username,
-          password,
+     
         });
       } else {
         return res.json({
