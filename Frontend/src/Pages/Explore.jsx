@@ -10,7 +10,7 @@ export default function Explore() {
   const [response, setResponse] = useState({ meals: [] });
   const [showFullInstructions, setShowFullInstructions] = useState(false);
 
-  const fetchData = async () => {
+  const GetRandomMeal = async () => {
     try {
       const result = await axios.get(
         "https://www.themealdb.com/api/json/v1/1/random.php"
@@ -47,7 +47,7 @@ export default function Explore() {
           />
           <button
             className="ml-2 p-3 px-5 bg-orange-500 rounded hover:bg-orange-600 text-white"
-            onClick={fetchData}
+            onClick={GetRandomMeal}
           >
             <FontAwesomeIcon icon={faSearch} />
           </button>
@@ -104,10 +104,11 @@ export default function Explore() {
         <button
           className="bg-orange-500 text-white border w-full py-2 px-6 md:px-8 rounded-lg border-transparent font-extrabold text-lg shadow mt-6 hover:bg-orange-600"
           aria-label="Suggest Me"
-          onClick={fetchData}
+          onClick={GetRandomMeal}
         >
           Suggest Me a Recipe
         </button>
+
       </div>
 
       <Footer />

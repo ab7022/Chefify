@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -10,16 +10,53 @@ import roll from "../assets/roll.png";
 import tea from "../assets/tea.png";
 import Footer from "../components/Footer";
 import RecipeCard from "../components/RecipeCard";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate()
+  const [response, setResponse] = useState({ categories: [] });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const categories = await axios.get(
+          "https://www.themealdb.com/api/json/v1/1/categories.php"
+        );
+        setResponse({ categories: categories.data.categories });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // empty dependency array
+
+  useEffect(() => {
+    console.log(response);
+  }, [response]); // log the updated state
+  
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [recipes, setRecipes] = useState([]);
+
+  const handleCategoryClick = async (categoryName) => {
+    try {
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+      const data = await response.json();
+      setRecipes(data.meals || []);
+      setSelectedCategory(categoryName);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    }
+  };
   return (
     <div className="glassmorphism-bg">
-      <div className="pt-12 md:pt-52 p-3 bg-gray-100 min-h-screen">
+      <div className="pt-6 md:pt-52 p-3 bg-gray-100 min-h-screen">
         <Navbar />
 
-        <div className="max-w-4xl mx-auto">
-          <p className="text-gray-700 font-medium text-2xl">Good Morning</p>
-          <h1 className="text-4xl font-bold mb-4">Discover New Recipes</h1>
+        <div className="max-w-2xl mx-auto">
+          <p className="text-gray-700 font-medium text-xl">Good Morning</p>
+          <h1 className="text-2xl font-bold mb-1">Discover New Recipes</h1>
           <div className="mt-3 w-full flex flex-row items-center">
             <input
               type="text"
@@ -31,43 +68,47 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <section className="mt-8 glassmorphism-bg p-4 ">
-            <h2 className="text-lg font-bold mb-4">
-              What type of recipes are you looking for?
-            </h2>
-            <div className="flex flex-row text-sm overflow-x-auto ">
-              <div className="mr-2 min-w-20">
-                <div className="bg-white rounded-full shadow-lg p-1 w-full">
-                  <img src={breakfast} alt="" width={130} />
+          <section className="mt-4 glassmorphism-bg p-4">
+      <h2 className="text-lg font-bold mb-4">What are you looking for?</h2>
+      <div className="flex flex-row text-sm overflow-x-auto">
+        {[...response.categories]
+          .filter(category => category.strCategory !== 'Pork' && category.strCategory !== 'Miscellaneous')
+          .map((category, index) => (
+            <div key={index} className="mr-4 min-w-16 min-h-16 flex items-center">
+              <div className="flex flex-col">
+                <div
+                  className={`rounded-full shadow-lg bg-slate-50 p-1 cursor-pointer ${
+                    selectedCategory === category.strCategory ? 'border-2 border-blue-500' : ''
+                  }`}
+                  onClick={() =>{
+                    navigate("/categories")
+                     handleCategoryClick(category.strCategory
+                      )}
+                     }
+                >
+                  <img
+                    src={category.strCategoryThumb}
+                    alt=""
+                    className="rounded-full min-w-14 min-h-14 object-cover"
+                  />
                 </div>
-                <p className="text-center p-1.5">Breakfast</p>
-              </div>
-              <div className="mr-2 min-w-20">
-                <div className="bg-white rounded-full shadow-lg p-1 w-full">
-                  <img src={biryani} alt="" width={130} />
-                </div>
-                <p className="text-center p-1.5">Lunch</p>
-              </div>
-              <div className="mr-2 min-w-20">
-                <div className="bg-white rounded-full shadow-lg p-1">
-                  <img src={tea} alt="" width={130} />
-                </div>
-                <p className="text-center p-1.5">Tea</p>
-              </div>
-              <div className="mr-2 min-w-20">
-                <div className="bg-white rounded-full shadow-lg p-2">
-                  <img src={burger} alt="" width={120} />
-                </div>
-                <p className="text-center p-1.5">Snacks</p>
-              </div>
-              <div className="mr-2 min-w-20">
-                <div className="bg-white rounded-full shadow-lg p-1">
-                  <img src={roll} alt="" width={130} />
-                </div>
-                <p className="text-center p-1.5">Dinner</p>
+                <p className="text-center p-1.5">{category.strCategory}</p>
               </div>
             </div>
-          </section>
+          ))}
+      </div>
+
+      {recipes.length > 0 && (
+        <div>
+          <h3 className="text-lg font-bold mt-4">Recipes for {selectedCategory}:</h3>
+          <ul>
+            {recipes.map((recipe, index) => (
+              <li key={index}>{recipe.strMeal}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
 
           <section className="mt-8 glassmorphism-secondary p-4 bg-gray-50">
             <h2 className="text-xl font-bold mb-4">Top Breakfast Recipes</h2>
