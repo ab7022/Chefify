@@ -91,33 +91,34 @@ export default function Categories() {
           </section>
 
 
-          <section className="mt-8 glassmorphism-bg p-4 mb-20">
+          <section className="mt-8 glassmorphism-bg p-2 mb-20">
   {recipes.length > 0 && (
     <div>
-      <h3 className="text-lg font-bold m-2 text-center text-orange-500">
+      <h3 className="text-lg font-bold m-2 text-center items-center text-orange-500">
         Recipes for {selectedCategory}:
       </h3>
-      <div className="flex flex-wrap ">
+      <div className="flex flex-wrap justify-around">
         {recipes.map((recipe, index) => (
           <Link
-          to={`/recipe/${recipe.idMeal}`}
+            to={`/recipe/${recipe.idMeal}`}
             key={index}
-            className="flex flex-col  m-1 bg-gray-100 shadow-lg rounded p-2 max-w-36 border-e-2"
+            className="flex flex-col mb-4 bg-gray-100 shadow-lg rounded p-2 w-40 border-e-2 sm:w-48 sm:flex-basis-48 md:w-48 md:flex-basis-48 lg:w-24 lg:flex-basis-24 pb-8"
           >
             <img
               src={recipe.strMealThumb}
               alt="loading"
-              className="w-32 h-32 rounded-lg mb-2"
+              className="w-full h-32 rounded-lg mb-2 object-cover"
             />
             <p className="text-sm font-medium underline text-center">
               {recipe.strMeal}
             </p>
           </Link>
         ))}
-      </div>{" "}
+      </div>
     </div>
   )}
 </section>
+
 
         </div>
       </div>

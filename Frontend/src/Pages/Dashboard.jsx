@@ -14,8 +14,81 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [response, setResponse] = useState({ categories: [] });
+  const [apiData, setApiData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const apiEndpoints = {
+    listByLettera: "search.php?f=a",
+    listByLetterb: "search.php?f=b",
+    listByLetterc: "search.php?f=c",
+    listByLetterd: "search.php?f=d",
+    listByLettere: "search.php?f=e",
+    listByLetterf: "search.php?f=f",
+    listByLetterg: "search.php?f=g",
+    listByLetterh: "search.php?f=h",
+    listByLetteri: "search.php?f=i",
+    listByLetterj: "search.php?f=j",
+    listByLetterk: "search.php?f=k",
+    listByLetterl: "search.php?f=l",
+    listByLetterm: "search.php?f=m",
+    listByLettern: "search.php?f=n",
+    listByLettero: "search.php?f=o",
+    listByLetterp: "search.php?f=p",
+    listByLetterq: "search.php?f=q",
+    listByLetterr: "search.php?f=r",
+    listByLetters: "search.php?f=s",
+    listByLetteru: "search.php?f=t",
+    listByLetterv: "search.php?f=u",
+    listByLetterw: "search.php?f=v",
+    listByLetterx: "search.php?f=x",
+    listByLettery: "search.php?f=y",
+    listByLetterz: 'search.php?f=z',
+
+    filterByCategoryBeef:'filter.php?c=Beef',
+    filterByCategoryChicken:'filter.php?c=Chicken',
+    filterByCategoryDessert:'filter.php?c=Dessert',
+    filterByCategoryLamb:'filter.php?c=Lamb',
+    filterByCategoryMiscellaneous:'filter.php?c=Miscellaneous',
+    filterByCategoryPasta:'filter.php?c=Pasta',
+    filterByCategorySeafood:'filter.php?c=Seafood',
+    filterByCategorySide:'filter.php?c=Side',
+    filterByCategoryStarter:'filter.php?c=Starter',
+    filterByCategoryVegan:'filter.php?c=Vegan',
+    filterByCategoryVegetaria:'filter.php?c=Vegetarian',
+    filterByCategoryBreakfast:'filter.php?c=Breakfast',
+    filterByCategoryGoat:'filter.php?c=Goat',
+
+  };
+
+  useEffect(() => {
+    const fetchRandomData = async () => {
+      setLoading(true);
+      try {
+        // Randomly choose an API endpoint
+        const randomEndpoint = getRandomEndpoint();
+        const response = await axios.get(
+          `https://www.themealdb.com/api/json/v1/1/${randomEndpoint}`
+        );
+        setApiData(response.data.meals || []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRandomData();
+  }, []); // Fetch data when the component mounts
+  const getRandomEndpoint = () => {
+    // Get an array of API endpoint keys
+    const endpointKeys = Object.keys(apiEndpoints);
+    // Choose a random key
+    const randomKey =
+      endpointKeys[Math.floor(Math.random() * endpointKeys.length)];
+    // Return the corresponding API endpoint value
+    return apiEndpoints[randomKey];
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,18 +108,20 @@ export default function Dashboard() {
   useEffect(() => {
     console.log(response);
   }, [response]); // log the updated state
-  
+
   const [selectedCategory, setSelectedCategory] = useState();
   const [recipes, setRecipes] = useState([]);
 
   const handleCategoryClick = async (categoryName) => {
     try {
-      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+      const response = await fetch(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`
+      );
       const data = await response.json();
       setRecipes(data.meals || []);
       setSelectedCategory(categoryName);
     } catch (error) {
-      console.error('Error fetching recipes:', error);
+      console.error("Error fetching recipes:", error);
     }
   };
   return (
@@ -69,46 +144,60 @@ export default function Dashboard() {
           </div>
 
           <section className="mt-4 glassmorphism-bg p-4">
-      <h2 className="text-lg font-bold mb-4">What are you looking for?</h2>
-      <div className="flex flex-row text-sm overflow-x-auto">
-        {[...response.categories]
-          .filter(category => category.strCategory !== 'Pork' && category.strCategory !== 'Miscellaneous')
-          .map((category, index) => (
-            <div key={index} className="mr-4 min-w-16 min-h-16 flex items-center">
-              <div className="flex flex-col">
-                <div
-                  className={`rounded-full shadow-lg bg-slate-50 p-1 cursor-pointer ${
-                    selectedCategory === category.strCategory ? 'border-2 border-blue-500' : ''
-                  }`}
-                  onClick={() =>{
-                    navigate("/categories")
-                     handleCategoryClick(category.strCategory
-                      )}
-                     }
-                >
-                  <img
-                    src={category.strCategoryThumb}
-                    alt=""
-                    className="rounded-full min-w-14 min-h-14 object-cover"
-                  />
-                </div>
-                <p className="text-center p-1.5">{category.strCategory}</p>
-              </div>
+            <h2 className="text-lg font-bold mb-4">
+              What are you looking for?
+            </h2>
+            <div className="flex flex-row text-sm overflow-x-auto">
+              {[...response.categories]
+                .filter(
+                  (category) =>
+                    category.strCategory !== "Pork" &&
+                    category.strCategory !== "Miscellaneous"
+                )
+                .map((category, index) => (
+                  <div
+                    key={index}
+                    className="mr-4 min-w-16 min-h-16 flex items-center"
+                  >
+                    <div className="flex flex-col">
+                      <div
+                        className={`rounded-full shadow-lg bg-slate-50 p-1 cursor-pointer ${
+                          selectedCategory === category.strCategory
+                            ? "border-2 border-blue-500"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          navigate("/categories");
+                          handleCategoryClick(category.strCategory);
+                        }}
+                      >
+                        <img
+                          src={category.strCategoryThumb}
+                          alt=""
+                          className="rounded-full min-w-14 min-h-14 object-cover"
+                        />
+                      </div>
+                      <p className="text-center p-1.5">
+                        {category.strCategory}
+                      </p>
+                    </div>
+                  </div>
+                ))}
             </div>
-          ))}
-      </div>
 
-      {recipes.length > 0 && (
-        <div>
-          <h3 className="text-lg font-bold mt-4">Recipes for {selectedCategory}:</h3>
-          <ul>
-            {recipes.map((recipe, index) => (
-              <li key={index}>{recipe.strMeal}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </section>
+            {recipes.length > 0 && (
+              <div>
+                <h3 className="text-lg font-bold mt-4">
+                  Recipes for {selectedCategory}:
+                </h3>
+                <ul>
+                  {recipes.map((recipe, index) => (
+                    <li key={index}>{recipe.strMeal}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
 
           <section className="mt-8 glassmorphism-secondary p-4 bg-gray-50">
             <h2 className="text-xl font-bold mb-4">Top Breakfast Recipes</h2>
