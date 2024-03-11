@@ -11,15 +11,15 @@ import tea from "../assets/tea.png";
 import Footer from "../components/Footer";
 import RecipeCard from "../components/RecipeCard";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [response, setResponse] = useState({ categories: [] });
-  const [apiData, setApiData] = useState([]);
+  const [apiDataSearch, setApiDataSearch] = useState([]);
+  const [apiDataCategory, setApiDataCategory] = useState([]);
   const [loading, setLoading] = useState(false);
-  const apiEndpoints = {
-    listByLettera: "search.php?f=a",
+  const apiEndpointsSearch = {
     listByLetterb: "search.php?f=b",
     listByLetterc: "search.php?f=c",
     listByLetterd: "search.php?f=d",
@@ -27,7 +27,6 @@ export default function Dashboard() {
     listByLetterf: "search.php?f=f",
     listByLetterg: "search.php?f=g",
     listByLetterh: "search.php?f=h",
-    listByLetteri: "search.php?f=i",
     listByLetterj: "search.php?f=j",
     listByLetterk: "search.php?f=k",
     listByLetterl: "search.php?f=l",
@@ -35,30 +34,27 @@ export default function Dashboard() {
     listByLettern: "search.php?f=n",
     listByLettero: "search.php?f=o",
     listByLetterp: "search.php?f=p",
-    listByLetterq: "search.php?f=q",
     listByLetterr: "search.php?f=r",
     listByLetters: "search.php?f=s",
     listByLetteru: "search.php?f=t",
-    listByLetterv: "search.php?f=u",
     listByLetterw: "search.php?f=v",
-    listByLetterx: "search.php?f=x",
-    listByLettery: "search.php?f=y",
-    listByLetterz: 'search.php?f=z',
 
-    filterByCategoryBeef:'filter.php?c=Beef',
-    filterByCategoryChicken:'filter.php?c=Chicken',
-    filterByCategoryDessert:'filter.php?c=Dessert',
-    filterByCategoryLamb:'filter.php?c=Lamb',
-    filterByCategoryMiscellaneous:'filter.php?c=Miscellaneous',
-    filterByCategoryPasta:'filter.php?c=Pasta',
-    filterByCategorySeafood:'filter.php?c=Seafood',
-    filterByCategorySide:'filter.php?c=Side',
-    filterByCategoryStarter:'filter.php?c=Starter',
-    filterByCategoryVegan:'filter.php?c=Vegan',
-    filterByCategoryVegetaria:'filter.php?c=Vegetarian',
-    filterByCategoryBreakfast:'filter.php?c=Breakfast',
-    filterByCategoryGoat:'filter.php?c=Goat',
-
+  };
+  const apiEndpointsCategory = {
+    
+    filterByCategoryBeef: "filter.php?c=Beef",
+    filterByCategoryChicken: "filter.php?c=Chicken",
+    filterByCategoryDessert: "filter.php?c=Dessert",
+    filterByCategoryLamb: "filter.php?c=Lamb",
+    filterByCategoryMiscellaneous: "filter.php?c=Miscellaneous",
+    filterByCategoryPasta: "filter.php?c=Pasta",
+    filterByCategorySeafood: "filter.php?c=Seafood",
+    filterByCategorySide: "filter.php?c=Side",
+    filterByCategoryStarter: "filter.php?c=Starter",
+    filterByCategoryVegan: "filter.php?c=Vegan",
+    filterByCategoryVegetaria: "filter.php?c=Vegetarian",
+    filterByCategoryBreakfast: "filter.php?c=Breakfast",
+    filterByCategoryGoat: "filter.php?c=Goat",
   };
 
   useEffect(() => {
@@ -66,11 +62,11 @@ export default function Dashboard() {
       setLoading(true);
       try {
         // Randomly choose an API endpoint
-        const randomEndpoint = getRandomEndpoint();
+        const randomEndpoint = getRandomEndpointCategory();
         const response = await axios.get(
           `https://www.themealdb.com/api/json/v1/1/${randomEndpoint}`
         );
-        setApiData(response.data.meals || []);
+        setApiDataCategory(response.data.meals || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -79,15 +75,37 @@ export default function Dashboard() {
     };
 
     fetchRandomData();
-  }, []); // Fetch data when the component mounts
-  const getRandomEndpoint = () => {
-    // Get an array of API endpoint keys
-    const endpointKeys = Object.keys(apiEndpoints);
-    // Choose a random key
+  }, []);
+  useEffect(() => {
+    const fetchRandomData = async () => {
+      setLoading(true);
+      try {
+        // Randomly choose an API endpoint
+        const randomEndpoint = getRandomEndpointSearch();
+        const response = await axios.get(
+          `https://www.themealdb.com/api/json/v1/1/${randomEndpoint}`
+        );
+        setApiDataSearch(response.data.meals || []);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRandomData();
+  }, []);
+  const getRandomEndpointSearch = () => {
+    const endpointKeys = Object.keys(apiEndpointsSearch);
     const randomKey =
       endpointKeys[Math.floor(Math.random() * endpointKeys.length)];
-    // Return the corresponding API endpoint value
-    return apiEndpoints[randomKey];
+    return apiEndpointsSearch[randomKey];
+  };
+  const getRandomEndpointCategory = () => {
+    const endpointKeys = Object.keys(apiEndpointsCategory);
+    const randomKey =
+      endpointKeys[Math.floor(Math.random() * endpointKeys.length)];
+    return apiEndpointsCategory[randomKey];
   };
 
   useEffect(() => {
@@ -107,6 +125,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     console.log(response);
+    console.log(apiDataSearch);
+    console.log(apiDataCategory);
+
   }, [response]); // log the updated state
 
   const [selectedCategory, setSelectedCategory] = useState();
@@ -143,7 +164,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <section className="mt-4 glassmorphism-bg p-4">
+          <section className="mt-4 glassmorphism-bg p-3">
             <h2 className="text-lg font-bold mb-4">
               What are you looking for?
             </h2>
@@ -199,29 +220,41 @@ export default function Dashboard() {
             )}
           </section>
 
-          <section className="mt-8 glassmorphism-secondary p-4 bg-gray-50">
-            <h2 className="text-xl font-bold mb-4">Top Breakfast Recipes</h2>
-            <div className="flex flex-row flex-nowrap overflow-x-auto gap-4 mb-2">
-              <RecipeCard
-                image={biryani}
-                name="Chicken Biryani"
-                time="13 mins"
-              />
-              <RecipeCard image={momos} name="Chicken Momo" time="13 mins" />
-              <RecipeCard image={roll} name="Chicken Roll" time="13 mins" />
+          <section className="mt-8 glassmorphism-secondary p-3 bg-gray-50">
+            <h2 className="text-lg font-bold mb-2">Explore Favorites
+</h2>
+            <div className="flex flex-row flex-nowrap overflow-x-auto gap-2 mb-1">
+              {apiDataSearch.map((recipe, index) => (
+                <Link to={`/recipe/${recipe.idMeal}`}>
+                  <RecipeCard
+                    key={index}
+                    image={recipe.strMealThumb}
+                    name={recipe.strMeal}
+                    category={recipe.strCategory}
+                    area={recipe.strArea}
+                  />
+                </Link>
+              ))}
             </div>
           </section>
 
-          <section className="mt-8 glassmorphism-secondary p-4  bg-gray-50">
-            <h2 className="text-xl font-bold mb-4">Recent Recipes</h2>
-            <div className="flex flex-row flex-nowrap overflow-x-auto gap-4 mb-2">
-              <RecipeCard image={burger} name="Veg Burger" time="13 mins" />
-              <RecipeCard image={roll} name="Chicken Roll" time="13 mins" />
-              <RecipeCard image={momos} name="Chicken Momo" time="13 mins" />
+          <section className="mt-8 glassmorphism-secondary p-3 bg-gray-50">
+            <h2 className="text-lg font-bold mb-2">Best Dishes for you</h2>
+            <div className="flex flex-row flex-nowrap overflow-x-auto gap-2 mb-1">
+              {apiDataCategory.map((recipe, index) => (
+                <Link to={`/recipe/${recipe.idMeal}`}>
+                  <RecipeCard
+                    key={index}
+                    image={recipe.strMealThumb}
+                    name={recipe.strMeal}
+                    category={recipe.strCategory}
+                  />
+                </Link>
+              ))}
             </div>
           </section>
           <div className="glassmorphism-secondary flex flex-col justify-center p-4  mt-8 mb-24">
-            <p className="text-xl p-2 font-semibold">
+            <p className="text-lg p-2 font-semibold">
               Not sure what you want to cook? Get personalized suggestions!
             </p>
             <button

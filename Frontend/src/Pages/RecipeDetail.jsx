@@ -83,14 +83,14 @@ const RecipeDetail = () => {
           <table className="w-full mb-4 bg-red-100  rounded-bl-3xl rounded-tr-3xl">
             <tbody>
               <tr className="flex flex-row justify-around p-2">
-                <div className=" flex flex-col w-1/2 justify-center">
+                <div className=" flex flex-col w-1/2 justify-center px-2">
                   <td className="font-semibold">Name:</td>
                   <td className="pr-2">
                     {recipeDetail.strMeal || "Not available"}
                   </td>
                 </div>
 
-                <div className="flex flex-col w-1/2 justify-center   ">
+                <div className="flex flex-col w-1/2 justify-center px-2  ">
                   <td className="font-semibold">Category:</td>
                   <td className="pr-2">
                     {recipeDetail.strCategory || "Not available"}
@@ -98,14 +98,14 @@ const RecipeDetail = () => {
                 </div>
               </tr>
               <tr className="flex flex-row justify-around p-2">
-                <div className="flex flex-col w-1/2 justify-center">
+                <div className="flex flex-col w-1/2 justify-center px-2">
                   <td className="font-semibold">Area:</td>
                   <td className="pr-2">
                     {recipeDetail.strArea || "Not available"}
                   </td>
                 </div>
 
-                <div className="flex flex-col w-1/2 justify-center">
+                <div className="flex flex-col w-1/2 justify-center px-2">
                   <td className="font-semibold">Tags:</td>
                   <td className="whitespace-nowrap overflow-hidden overflow-ellipsis">
                     {" "}

@@ -20,6 +20,9 @@ export default {
         gray:{
           900: "#54656F"
         }
+      },
+      fontSize:{
+        'small': '.6rem'
       }
     },
   },
