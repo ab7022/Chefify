@@ -22,7 +22,6 @@ export default function Dashboard() {
   const apiEndpointsSearch = {
     listByLetterb: "search.php?f=b",
     listByLetterc: "search.php?f=c",
-    listByLetterd: "search.php?f=d",
     listByLettere: "search.php?f=e",
     listByLetterf: "search.php?f=f",
     listByLetterg: "search.php?f=g",
@@ -32,16 +31,13 @@ export default function Dashboard() {
     listByLetterl: "search.php?f=l",
     listByLetterm: "search.php?f=m",
     listByLettern: "search.php?f=n",
-    listByLettero: "search.php?f=o",
     listByLetterp: "search.php?f=p",
     listByLetterr: "search.php?f=r",
     listByLetters: "search.php?f=s",
     listByLetteru: "search.php?f=t",
     listByLetterw: "search.php?f=v",
-
   };
   const apiEndpointsCategory = {
-    
     filterByCategoryBeef: "filter.php?c=Beef",
     filterByCategoryChicken: "filter.php?c=Chicken",
     filterByCategoryDessert: "filter.php?c=Dessert",
@@ -54,7 +50,6 @@ export default function Dashboard() {
     filterByCategoryVegan: "filter.php?c=Vegan",
     filterByCategoryVegetaria: "filter.php?c=Vegetarian",
     filterByCategoryBreakfast: "filter.php?c=Breakfast",
-    filterByCategoryGoat: "filter.php?c=Goat",
   };
 
   useEffect(() => {
@@ -127,7 +122,6 @@ export default function Dashboard() {
     console.log(response);
     console.log(apiDataSearch);
     console.log(apiDataCategory);
-
   }, [response]); // log the updated state
 
   const [selectedCategory, setSelectedCategory] = useState();
@@ -221,8 +215,7 @@ export default function Dashboard() {
           </section>
 
           <section className="mt-8 glassmorphism-secondary p-3 bg-gray-50">
-            <h2 className="text-lg font-bold mb-2">Explore Favorites
-</h2>
+            <h2 className="text-lg font-bold mb-2">Explore Favorites</h2>
             <div className="flex flex-row flex-nowrap overflow-x-auto gap-2 mb-1">
               {apiDataSearch.map((recipe, index) => (
                 <Link to={`/recipe/${recipe.idMeal}`}>
@@ -266,7 +259,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer/>
     </div>
   );
 }

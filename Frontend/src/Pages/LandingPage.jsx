@@ -28,7 +28,7 @@ const LandingPage = () => {
         <div className="fixed md:static bottom-0 scroll-my-0">
           <div className="flex flex-col justify-start mx-4 md:mt-32">
             <div className="text-black px-4 md:px-8">
-              <h1 className="text-6xl tracking-widest md:tracking-normal md:text-7xl lg:text-9xl font-style p-2 md:p-8 md:mt-24">
+              <h1 className="text-4xl tracking-widest md:tracking-normal md:text-7xl lg:text-7xl font-style p-2 md:p-8 md:mt-24">
                 Get the <span className="underline-orange">food</span> recipe
                 more easily!
               </h1>
