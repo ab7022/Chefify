@@ -1,37 +1,69 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { apiEndpointsCategory, apiEndpointsSearch } from "../components/APIEndpoint";
+import RecipeCardSecondary from "../components/RecipeCardSecondary";
 
 export default function Explore() {
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
-  const [response, setResponse] = useState({ meals: [] });
-  const [showFullInstructions, setShowFullInstructions] = useState(false);
+  const [apiDataCategory, setApiDataCategory] = useState([]);
+  const [apiDataSearch, setApiDataSearch] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1); // Track current page for pagination
 
-  const GetRandomMeal = async () => {
+  useEffect(() => {
+    fetchRandomCategoryData();
+    fetchRandomSearchData();
+  }, []); // Fetch initial data when component mounts
+
+  const fetchRandomCategoryData = async () => {
+    setLoading(true);
     try {
-      const result = await axios.get(
-        "https://www.themealdb.com/api/json/v1/1/random.php"
-      );
-      setResponse(result.data);
-      if (result.data.meals.length > 0) {
-        setSelectedRecipe(result.data.meals[0]);
-        setShowFullInstructions(false); // Reset to truncate instructions
-      }
-      console.log(result.data);
+      const randomEndpoint = getRandomEndpoint(apiEndpointsCategory);
+      const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/${randomEndpoint}`);
+      setApiDataCategory((prevData) => [...prevData, ...(response.data.meals || [])]);
     } catch (error) {
-      console.error("Error fetching random recipe:", error);
+      console.error("Error fetching category data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const toggleInstructions = () => {
-    setShowFullInstructions(!showFullInstructions);
+  const fetchRandomSearchData = async () => {
+    setLoading(true);
+    try {
+      const randomKey = getRandomKey(apiEndpointsSearch);
+      const randomEndpoint = apiEndpointsSearch[randomKey];
+      const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/${randomEndpoint}`);
+      setApiDataSearch((prevData) => [...prevData, ...(response.data.meals || [])]);
+    } catch (error) {
+      console.error("Error fetching search data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getRandomEndpoint = (endpoints) => {
+    const keys = Object.keys(endpoints);
+    return endpoints[keys[Math.floor(Math.random() * keys.length)]];
+  };
+
+  const getRandomKey = (endpoints) => {
+    const keys = Object.keys(endpoints);
+    return keys[Math.floor(Math.random() * keys.length)];
+  };
+
+  const loadMore = () => {
+    setPage(page + 1); // Increment page
+    fetchRandomSearchData(); // Fetch more data
+    fetchRandomCategoryData()
   };
 
   return (
-    <div className="glassmorphism-bg min-h-screen">
+    <div className="glassmorphism-bg min-h-screen max-w-full flex flex-col justify-center align-middle items-center">
       <Navbar />
 
       <div className="max-w-2xl mx-auto p-6">
@@ -39,7 +71,7 @@ export default function Explore() {
           Explore New Recipes
         </h1>
 
-        <div className="flex items-center mb-6">
+        <div className="flex items-center my-6  ">
           <input
             type="text"
             placeholder="Search for recipes"
@@ -47,69 +79,55 @@ export default function Explore() {
           />
           <button
             className="ml-2 p-3 px-5 bg-orange-500 rounded hover:bg-orange-600 text-white"
-            onClick={GetRandomMeal}
+            onClick={() => {
+              console.log("hello");
+            }}
           >
             <FontAwesomeIcon icon={faSearch} />
           </button>
         </div>
 
-        {selectedRecipe && (
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h3 className="text-xl font-bold mb-2 text-gray-800">
-              {selectedRecipe.strMeal}
-            </h3>
-            <img
-              src={selectedRecipe.strMealThumb}
-              alt={selectedRecipe.strMeal}
-              className="mb-4 rounded-lg w-full"
-            />
-            <p className="text-gray-700 mb-4">
-              <span className="font-semibold">Category:</span>{" "}
-              {selectedRecipe.strCategory}
-            </p>
-            <p className="text-gray-700 mb-4">
-              <span className="font-semibold">Area:</span>{" "}
-              {selectedRecipe.strArea}
-            </p>
-            <p className="text-gray-700 mb-4">
-              <span className="font-semibold">Tags:</span>{" "}
-              {selectedRecipe.strTags}
-            </p>
-            <p className="text-gray-700 mb-4">
-              <span className="font-semibold">Instructions:</span>{" "}
-              {showFullInstructions
-                ? selectedRecipe.strInstructions
-                : `${selectedRecipe.strInstructions.slice(0, 40)}...`}
-              {!showFullInstructions && (
-                <button
-                  className="text-orange-500 hover:underline focus:outline-none"
-                  onClick={toggleInstructions}
-                >
-                  Read More
-                </button>
-              )}
-            </p>
-            <a
-              href={selectedRecipe.strYoutube}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center text-orange-500 hover:underline"
-            >
-              <FontAwesomeIcon icon={faVideo} className="mr-2" />
-              Watch on YouTube
-            </a>
-          </div>
-        )}
-
-        <button
-          className="bg-orange-500 text-white border w-full py-2 px-6 md:px-8 rounded-lg border-transparent font-extrabold text-lg shadow mt-6 hover:bg-orange-600"
-          aria-label="Suggest Me"
-          onClick={GetRandomMeal}
-        >
-          Suggest Me a Recipe
-        </button>
-
+     
       </div>
+
+      <section className="mt-8 glassmorphism-secondary p-3 bg-gray-50 w-7xl flex flex-col">
+        <div className="flex flex-col gap-2 mb-1">
+          {/* Displaying category recipes */}
+          {apiDataCategory.map((recipe, index) => (
+            <Link to={`/recipe/${recipe.idMeal}`} key={index}>
+              <RecipeCardSecondary
+                image={recipe.strMealThumb}
+                name={recipe.strMeal}
+                category={recipe.strCategory}
+                area={recipe.strArea}
+              />
+            </Link>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-2 mb-1">
+          {/* Displaying search recipes */}
+          {apiDataSearch.map((recipe, index) => (
+            <Link to={`/recipe/${recipe.idMeal}`} key={index}>
+              <RecipeCardSecondary
+                image={recipe.strMealThumb}
+                name={recipe.strMeal}
+                category={recipe.strCategory}
+                area={recipe.strArea}
+              />
+            </Link>
+          ))}
+        </div>
+
+        {/* Button to load more recipes */}
+        <button
+          className="bg-orange-500 text-white border w-full py-2 px-6 md:px-8 rounded-lg border-transparent font-extrabold text-lg shadow mb-20 mt-4 hover:bg-orange-600"
+          aria-label="Load More"
+          onClick={loadMore}
+        >
+          Show More
+        </button>
+      </section>
 
       <Footer />
     </div>

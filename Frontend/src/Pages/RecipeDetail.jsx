@@ -149,7 +149,7 @@ const RecipeDetail = () => {
                 <div className="flex flex-wrap p-2">{renderIngredients()}</div>
               </div>
               {recipeDetail.strYoutube && (
-                <div className="bg-red-500 p-2 rounded-lg mt-4">
+                <div className="bg-red-500 p-2 rounded-lg my-10">
                   <a
                     href={recipeDetail.strYoutube}
                     target="_blank"

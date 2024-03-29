@@ -1,62 +1,49 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import breakfast from "../assets/3924822_12690.png";
-import burger from "../assets/78178774_Fresh beef burger isolated -4.png";
-import biryani from "../assets/biryani.png";
-import momos from "../assets/momos.png";
-import roll from "../assets/roll.png";
-import tea from "../assets/tea.png";
+import { faSearch,faVideo } from "@fortawesome/free-solid-svg-icons";
+
 import Footer from "../components/Footer";
 import RecipeCard from "../components/RecipeCard";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-
+import { apiEndpointsCategory,apiEndpointsSearch } from "../components/APIEndpoint";
 export default function Dashboard() {
   const navigate = useNavigate();
   const [response, setResponse] = useState({ categories: [] });
   const [apiDataSearch, setApiDataSearch] = useState([]);
   const [apiDataCategory, setApiDataCategory] = useState([]);
   const [loading, setLoading] = useState(false);
-  const apiEndpointsSearch = {
-    listByLetterb: "search.php?f=b",
-    listByLetterc: "search.php?f=c",
-    listByLettere: "search.php?f=e",
-    listByLetterf: "search.php?f=f",
-    listByLetterg: "search.php?f=g",
-    listByLetterh: "search.php?f=h",
-    listByLetterj: "search.php?f=j",
-    listByLetterk: "search.php?f=k",
-    listByLetterl: "search.php?f=l",
-    listByLetterm: "search.php?f=m",
-    listByLettern: "search.php?f=n",
-    listByLetterp: "search.php?f=p",
-    listByLetterr: "search.php?f=r",
-    listByLetters: "search.php?f=s",
-    listByLetteru: "search.php?f=t",
-    listByLetterw: "search.php?f=v",
+
+  const [randomdetail, setrandomdetail] = useState({ meals: [] });
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [showFullInstructions, setShowFullInstructions] = useState(false);
+
+  const GetRandomMeal = async () => {
+    try {
+      const result = await axios.get(
+        "https://www.themealdb.com/api/json/v1/1/random.php"
+      );
+      setrandomdetail(result.data);
+      if (result.data.meals.length > 0) {
+        setSelectedRecipe(result.data.meals[0]);
+        setShowFullInstructions(false); // Reset to truncate instructions
+      }
+      console.log(result.data);
+    } catch (error) {
+      console.error("Error fetching random recipe:", error);
+    }
   };
-  const apiEndpointsCategory = {
-    filterByCategoryBeef: "filter.php?c=Beef",
-    filterByCategoryChicken: "filter.php?c=Chicken",
-    filterByCategoryDessert: "filter.php?c=Dessert",
-    filterByCategoryLamb: "filter.php?c=Lamb",
-    filterByCategoryMiscellaneous: "filter.php?c=Miscellaneous",
-    filterByCategoryPasta: "filter.php?c=Pasta",
-    filterByCategorySeafood: "filter.php?c=Seafood",
-    filterByCategorySide: "filter.php?c=Side",
-    filterByCategoryStarter: "filter.php?c=Starter",
-    filterByCategoryVegan: "filter.php?c=Vegan",
-    filterByCategoryVegetaria: "filter.php?c=Vegetarian",
-    filterByCategoryBreakfast: "filter.php?c=Breakfast",
+
+  const toggleInstructions = () => {
+    setShowFullInstructions(!showFullInstructions);
   };
 
   useEffect(() => {
     const fetchRandomData = async () => {
       setLoading(true);
       try {
-        // Randomly choose an API endpoint
+
         const randomEndpoint = getRandomEndpointCategory();
         const response = await axios.get(
           `https://www.themealdb.com/api/json/v1/1/${randomEndpoint}`
@@ -252,10 +239,68 @@ export default function Dashboard() {
             </p>
             <button
               className="bg-orange-500 text-white border w-full py-2 px-6 md:px-8 rounded-lg border-transparent font-extrabold text-lg shadow mb-4 hover:bg-orange-600"
-              aria-label="Suggest Me"
+              aria-label="Suggest Me" onClick={GetRandomMeal}
             >
               Suggest Me
             </button>
+            {selectedRecipe && (
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h3 className="text-xl font-bold mb-2 text-gray-800">
+              {selectedRecipe.strMeal}
+            </h3>
+            <img
+              src={selectedRecipe.strMealThumb}
+              alt={selectedRecipe.strMeal}
+              className="mb-4 rounded-lg w-full"
+            />
+            <p className="text-gray-700 mb-4">
+              <span className="font-semibold">Category:</span>{" "}
+              {selectedRecipe.strCategory}
+            </p>
+            <p className="text-gray-700 mb-4">
+              <span className="font-semibold">Area:</span>{" "}
+              {selectedRecipe.strArea}
+            </p>
+            <p className="text-gray-700 mb-4">
+              <span className="font-semibold">Tags:</span>{" "}
+              {selectedRecipe.strTags}
+            </p>
+            <p className="text-gray-700 mb-4">
+              <span className="font-semibold">Instructions:</span>{" "}
+              {showFullInstructions
+                ? selectedRecipe.strInstructions
+                : `${selectedRecipe.strInstructions.slice(0, 40)}...`}
+              {!showFullInstructions && (
+                <button
+                  className="text-orange-500 hover:underline focus:outline-none"
+                  onClick={toggleInstructions}
+                >
+                  Read More
+                </button>
+              )}
+            </p>
+            <a
+              href={selectedRecipe.strYoutube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-orange-500 hover:underline"
+            >
+              <FontAwesomeIcon icon={faVideo} className="mr-2" />
+              Watch on YouTube
+            </a>
+            <button
+          className="bg-orange-500 text-white border w-full py-2 px-6 md:px-8 rounded-lg border-transparent font-extrabold text-lg shadow mt-6 hover:bg-orange-600"
+          aria-label="Suggest Me"
+          onClick={()=>{
+              navigate(`/recipe/${selectedRecipe.idMeal}`);
+          }
+            }
+        >
+          View full details
+        </button>
+          </div>
+
+        )}
           </div>
         </div>
       </div>
