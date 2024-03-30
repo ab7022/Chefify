@@ -13,10 +13,10 @@ export default function Navbar() {
           Explore Recipes
         </a>
         <a
-          href="#/addrecipe"
+          href="#/AiSearch"
           className="nav-link hover:underline hover:text-orange-500"
         >
-          Add Recipe
+          AI Search
         </a>
         <a
           href="#/profile"

@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
-  faPlusCircle,
   faUserCircle,
   faUtensils,
   faHome,
+
+  
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function Footer() {
@@ -23,10 +24,10 @@ export default function Footer() {
           <p className="text-sm">Explore</p>
         </div>
       </Link>
-      <Link to="/addrecipe">
+      <Link to="/AiSearch">
         <div className="text-center">
-          <FontAwesomeIcon icon={faPlusCircle} size="xl" color="#D2D2D2" />
-          <p className="text-sm">Add Recipe</p>
+          <FontAwesomeIcon icon={faSearch} size="xl" color="#D2D2D2" />
+          <p className="text-sm">AI Search</p>
         </div>
       </Link>
       <Link to="/profile">

@@ -2,8 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHeart,
+  faStar as solidStar,
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
+import { div } from "prelude-ls";
+
 const RecipeDetail = () => {
   const { id } = useParams();
   const [recipeDetail, setRecipeDetail] = useState(null);
@@ -12,6 +18,8 @@ const RecipeDetail = () => {
     setIsLoved(!isLoved); // Toggle love status
     // Further logic for loving the recipe
   };
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({ rating: 0, text: "" });
 
   useEffect(() => {
     const fetchRecipeDetail = async () => {
@@ -31,17 +39,21 @@ const RecipeDetail = () => {
 
   const renderInstructions = () => {
     if (!recipeDetail || !recipeDetail.strInstructions) {
-      return <p className="p-4 text-justify text-xs">Instructions not available</p>;
+      return (
+        <p className="p-4 text-justify text-base">Instructions not available</p>
+      );
     }
 
-    const instructionsArray = recipeDetail.strInstructions.split(/\bSTEP\b/).filter(Boolean);
+    const instructionsArray = recipeDetail.strInstructions
+      .split(/\bSTEP\b/)
+      .filter(Boolean);
     return (
       <>
         {instructionsArray.map((instruction, index) => {
-          const parts = instruction.trim().split('\n').filter(Boolean);
+          const parts = instruction.trim().split("\n").filter(Boolean);
           const stepNumber = parts.shift();
           return (
-            <div key={index} className="p-4 text-justify text-xs">
+            <div key={index} className="p-4 text-justify text-base">
               <strong>{stepNumber}</strong>
               {parts.map((part, idx) => (
                 <p key={idx}>{part}</p>
@@ -82,37 +94,107 @@ const RecipeDetail = () => {
     return ingredients;
   };
 
+  const handleRatingChange = (rating) => {
+    setNewReview({ ...newReview, rating });
+  };
+
+  const handleTextChange = (event) => {
+    setNewReview({ ...newReview, text: event.target.value });
+  };
+
+  const handleSubmitReview = () => {
+    // You would typically send the new review to the backend here
+    setReviews([...reviews, newReview]);
+    setNewReview({ rating: 0, text: "" });
+  };
+  const calculateAverageRating = () => {
+    if (reviews.length === 0) return 0;
+    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+    return totalRating / reviews.length;
+  };
+
+  const StarIcon = ({ filled }) => {
+    return (
+      <FontAwesomeIcon
+        icon={filled ? solidStar : regularStar}
+        className="text-yellow-500"
+      />
+    );
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
       {recipeDetail ? (
-        <div className="relative flex items-center justify-center  align-middle md:mt-28">
-         
+        <div className="relative flex items-center justify-center  align-middle md:mt-28 md:pt-4">
           <img
-            src={recipeDetail.strMealThumb}
+            src={recipeDetail.strMealThumb}handleTextChange
             alt={recipeDetail.strMeal}
-            className="w-full mb-6 shadow-md max-w-2xl max-h-96 md:top-10 object-cover rounded-md"
+            className="w-full mb-6 shadow-md max-w-3xl max-h-96 md:top-10 object-cover rounded-md"
           />
-          <div className="absolute rounded md:bottom-6 md:left-56 md:ml-2 md:max-w-2xl h-20 gradient-overlay justify-center align-middle items-center -mt-4">
-            <h1 className="text-3xl font-semibold text-white p-4 text-center">
+          <div className="absolute rounded md:bottom-6 md:left-auto md:max-w-3xl h-20 gradient-overlay justify-center align-middle items-center -mt-4">
+            <h1 className="text-2xl font-semibold text-white p-4 text-center">
               {recipeDetail.strMeal}
             </h1>
           </div>
         </div>
       ) : (
-        <div className="glassmorphism-bg min-h-screen flex items-center justify-center">
+        <div className=" min-h-screen flex items-center justify-center">
           Loading...
         </div>
       )}
       {recipeDetail && (
-        <div className="max-w-2xl mx-auto p-0 md:mt-24">
-          <div className="bg-white p-4 rounded-t-2xl shadow-md mt-1">
-          <FontAwesomeIcon
-        icon={faHeart}
-        onClick={handleLove}
-        className={isLoved ? "text-red-500 cursor-pointer" : "static text-gray-500 cursor-pointer"}
-        size="2x"
-      />
+        <div className="max-w-3xl mx-auto p-0 md:mt-8 mb-8">
+          <div className="glassmorphism-bg p-4 text-xl mt-4 m-2 flex justify-between ">
+            <div>
+              {reviews.length === 0 ? (
+                <p className="mt-2">No reviews yet.</p>
+              ) : (
+                <div className="flex flex-col">
+                  <p className="text-lg mr-2">Average Rating:</p>
+                  <div className="flex flex-row">
+                    {[...Array(Math.round(calculateAverageRating()))].map(
+                      (_, index) => (
+                        <StarIcon key={index} filled={true} />
+                      )
+                    )}
+                    {[...Array(5 - Math.round(calculateAverageRating()))].map(
+                      (_, index) => (
+                        <StarIcon key={index + 5} filled={false} />
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+            {recipeDetail.strYoutube && (
+              <div className="bg-red-500 p-3 rounded-lg hover:bg-red-600">
+                <a
+                  href={recipeDetail.strYoutube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white font-bold text-base flex justify-center"
+                >
+                  Watch Video
+                </a>
+              </div>
+            )}
+          </div>
+
+          <div className="bg-white p-4 rounded-t-2xl shadow-md mt-1 ">
+            <div className="flex flex-row justify-end">
+              <FontAwesomeIcon
+                icon={faHeart}
+                onClick={handleLove}
+                className={`flex flex-row justify-end relative top-7 mr-4 ${
+                  isLoved
+                    ? "text-red-500 cursor-pointer"
+                    : "text-gray-500 cursor-pointer "
+                }`}
+                size="3x"
+              />
+            </div>
+
             <table className="w-full mb-4 bg-red-100  rounded-bl-3xl rounded-tr-3xl">
               <tbody>
                 <tr className="flex flex-row justify-around p-2">
@@ -161,19 +243,44 @@ const RecipeDetail = () => {
                 </h2>
                 <div className="flex flex-wrap p-2">{renderIngredients()}</div>
               </div>
-              {recipeDetail.strYoutube && (
-                <div className="bg-red-500 p-2 rounded-lg my-10">
-                  <a
-                    href={recipeDetail.strYoutube}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white font-bold text-base flex justify-center"
-                  >
-                    Watch Youtube Video
-                  </a>
-                </div>
-              )}
             </div>
+            <div className="glassmorphism-bg-secondary p-4 rounded-md">
+  <h2 className="text-2xl font-semibold text-orange-500 mb-4">Add a Review</h2>
+  <div className="mb-4">
+    <label className="block text-lg mb-2">Rating:</label>
+    <select
+      value={newReview.rating}
+      onChange={(e) => handleRatingChange(parseInt(e.target.value))}
+      className="border rounded-md p-2 w-full"
+    >
+      <option value={0}>Select Rating</option>
+      <option value={1}>1 Star</option>
+      <option value={2}>2 Stars</option>
+      <option value={3}>3 Stars</option>
+      <option value={4}>4 Stars</option>
+      <option value={5}>5 Stars</option>
+    </select>
+  </div>
+  <div className="mb-4">
+    <label className="block text-lg mb-2">Review:</label>
+    <textarea
+      value={newReview.text}
+      onChange={handleTextChange}
+      className="border rounded-md p-2 w-full h-24"
+      placeholder="Write your review here..."
+    />
+  </div>
+  <div className="flex items-center justify-center align-center">
+     <button
+    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center"
+    onClick={handleSubmitReview}
+  >
+    Submit Review
+  </button>
+  </div>
+ 
+</div>
+
           </div>
         </div>
       )}

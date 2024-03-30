@@ -16,8 +16,7 @@ const Profile = () => {
 
   // Placeholder data for likes, favorites, and user recipes
   const likes = ["Like 1", "Like 2", "Like 3"];
-  const favorites = ["Favorite 1", "Favorite 2", "Favorite 3"];
-  const userRecipes = ["Recipe 1", "Recipe 2", "Recipe 3"];
+  const reviews = ["Review 1", "Review 2", "Review 3"];
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
@@ -60,25 +59,15 @@ const Profile = () => {
             </h2>
           </div>
           <ul className="list-disc pl-6">
-            {favorites.map((favorite, index) => (
+            {reviews.map((favorite, index) => (
               <li key={index} className="text-gray-700 mb-2">
-                {favorite}
+                {reviews}
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="bg-white p-4 rounded shadow-md">
-          <h2 className="text-2xl font-bold mb-2 text-orange-400">Your Recipes</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {userRecipes.map((recipe, index) => (
-              <div key={index} className="bg-orange-50 p-4 rounded-sm shadow-md">
-                <h3 className="text-lg font-bold mb-2">{recipe}</h3>
-                {/* Add more details or buttons as needed */}
-              </div>
-            ))}
-          </div>
-        </div>
+
       </div>
 
       <Footer />
