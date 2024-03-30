@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 const RecipeDetail = () => {
   const { id } = useParams();
   const [recipeDetail, setRecipeDetail] = useState(null);
+  const [isLoved, setIsLoved] = useState(false); // State to manage loved status
+  const handleLove = () => {
+    setIsLoved(!isLoved); // Toggle love status
+    // Further logic for loving the recipe
+  };
 
   useEffect(() => {
     const fetchRecipeDetail = async () => {
@@ -80,14 +86,15 @@ const RecipeDetail = () => {
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
       {recipeDetail ? (
-        <div className="relative">
+        <div className="relative flex items-center justify-center  align-middle md:mt-28">
+         
           <img
             src={recipeDetail.strMealThumb}
             alt={recipeDetail.strMeal}
-            className="w-full mb-6 shadow-md max-w-2xl max-h-72 top-10 object-cover"
+            className="w-full mb-6 shadow-md max-w-2xl max-h-96 md:top-10 object-cover rounded-md"
           />
-          <div className="absolute bottom-0 left-0 w-full h-20 gradient-overlay">
-            <h1 className="text-3xl font-semibold text-white p-4">
+          <div className="absolute rounded md:bottom-6 md:left-56 md:ml-2 md:max-w-2xl h-20 gradient-overlay justify-center align-middle items-center -mt-4">
+            <h1 className="text-3xl font-semibold text-white p-4 text-center">
               {recipeDetail.strMeal}
             </h1>
           </div>
@@ -100,6 +107,12 @@ const RecipeDetail = () => {
       {recipeDetail && (
         <div className="max-w-2xl mx-auto p-0 md:mt-24">
           <div className="bg-white p-4 rounded-t-2xl shadow-md mt-1">
+          <FontAwesomeIcon
+        icon={faHeart}
+        onClick={handleLove}
+        className={isLoved ? "text-red-500 cursor-pointer" : "static text-gray-500 cursor-pointer"}
+        size="2x"
+      />
             <table className="w-full mb-4 bg-red-100  rounded-bl-3xl rounded-tr-3xl">
               <tbody>
                 <tr className="flex flex-row justify-around p-2">

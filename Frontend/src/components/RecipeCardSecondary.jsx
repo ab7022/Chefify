@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark } from "@fortawesome/free-solid-svg-icons";
+
 
 const RecipeCardSecondary = ({ image, name, category, area }) => {
   const randomColorClasses = [
@@ -14,12 +13,9 @@ const RecipeCardSecondary = ({ image, name, category, area }) => {
     "bg-pink-200"
   ];
   const colorIndex = Math.floor(Math.random() * 8);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const colorIndex1 = Math.floor(Math.random() * 8);
 
-  const handleBookmarkClick = () => {
-    setIsBookmarked(!isBookmarked);
-  };
-  
+
   return (
     <div className="recipe-card bg-gray-100 rounded-md overflow-hidden border border-gray-300">
       <div className="image-container bg-white flex justify-center items-center h-36 object-cover">
@@ -31,10 +27,9 @@ const RecipeCardSecondary = ({ image, name, category, area }) => {
       </div>
       <div className="p-2">
         <div className="dish-name-container flex items-center justify-between">
-          <p className="font-medium text-lg text-center mb-2">{name}</p>
+          <p className="font-medium text-lg text-center mb-2 justify-center">{name}</p>
           {/* Save button icon */}
-          <button className="text-gray-700 hover:text-gray-900 focus:outline-none" onClick={handleBookmarkClick}>
-            <FontAwesomeIcon icon={isBookmarked ? faBookmark : faBookmark} />
+          <button className="text-gray-700 hover:text-gray-900 focus:outline-none">
           </button>
         </div>
         <div className="category-area-container">
@@ -44,7 +39,7 @@ const RecipeCardSecondary = ({ image, name, category, area }) => {
             </p>
           )}
           {area && (
-            <p className={`text-sm rounded-full text-center py-1 ${randomColorClasses[colorIndex]}`}>
+            <p className={`text-sm rounded-full text-center py-1 ${randomColorClasses[colorIndex1]}`}>
               {area}
             </p>
           )}
