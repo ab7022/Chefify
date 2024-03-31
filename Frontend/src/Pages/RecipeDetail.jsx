@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { div } from "prelude-ls";
+import axios from "axios";
 
 const RecipeDetail = () => {
   const { id } = useParams();
@@ -20,7 +21,11 @@ const RecipeDetail = () => {
   };
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ rating: 0, text: "" });
-
+  const [liked,setLiked] = useState(false)
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
   useEffect(() => {
     const fetchRecipeDetail = async () => {
       try {
@@ -121,14 +126,55 @@ const RecipeDetail = () => {
       />
     );
   };
+  const handleLike = async () => {
+console.log(recipeDetail);
+    try {
+      handleLove();
+      console.log("clicked");
+      // Call backend endpoint to like the recipe
+      const response = await axios.post('http://localhost:4000/like', 
+        {  recipeId: recipeDetail.idMeal,recipeName:recipeDetail.strMeal },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
 
+          }
+        }
+      );
+      if (response.status === 200) {
+        setLiked(true);
+      }
+    } catch (error) {
+      console.error('Error liking recipe:', error);
+    }
+  };
+  
+
+  const handleUnlike = async () => {
+    try {
+      // Call backend endpoint to unlike the recipe
+      const response = await fetch('https://localhost:4000/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId, recipeId: recipe.id })
+      });
+      if (response.ok) {
+        setLiked(false);
+      }
+    } catch (error) {
+      console.error('Error unliking recipe:', error);
+    }
+  };
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
       {recipeDetail ? (
         <div className="relative flex items-center justify-center  align-middle md:mt-28 md:pt-4">
           <img
-            src={recipeDetail.strMealThumb}handleTextChange
+            src={recipeDetail.strMealThumb}
             alt={recipeDetail.strMeal}
             className="w-full mb-6 shadow-md max-w-3xl max-h-96 md:top-10 object-cover rounded-md"
           />
@@ -185,7 +231,9 @@ const RecipeDetail = () => {
             <div className="flex flex-row justify-end">
               <FontAwesomeIcon
                 icon={faHeart}
-                onClick={handleLove}
+                onClick={
+                  handleLike
+                }
                 className={`flex flex-row justify-end relative top-7 mr-4 ${
                   isLoved
                     ? "text-red-500 cursor-pointer"

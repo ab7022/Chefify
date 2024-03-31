@@ -12,10 +12,17 @@ const Signin = () => {
   const signin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/signin",
-        { username, password }
+        "http://localhost:4000/signin",
+        { username, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
         setResponseMessage(response.data.msg)
+        localStorage.setItem("token", response.data.token);
+
         if (response.data.msg === "Login successful") {
           navigate("/profile");
         }
@@ -39,7 +46,7 @@ const Signin = () => {
             type="text"
             id="email"
             name="username"
-            placeholder="Enter your email"
+            placeholder="bayees1@gmail.com"
             onChange={(e)=>{
               setUsername(e.target.value)
             }}
@@ -52,7 +59,7 @@ const Signin = () => {
             onChange={(e)=>{
               setPassword(e.target.value)
             }}
-            placeholder="Enter your password"
+            placeholder="12345"
             className="w-full p-3 rounded-md border-gray-300 focus:border focus:bg-gray-50 shadow-sm my-4 bg-gray-100"
           />
            {responseMessage && (

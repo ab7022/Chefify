@@ -56,7 +56,7 @@ export default function Categories() {
       <div className="pt-6 md:pt-52 p-3 bg-gray-100 min-h-screen">
         <Navbar />
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <p className="text-gray-700 font-medium text-xl">Good Morning</p>
           <h1 className="text-2xl font-bold mb-1">Discover New Recipes</h1>
           <div className="mt-3 w-full flex flex-row items-center">
@@ -79,7 +79,8 @@ export default function Categories() {
                 .filter(
                   (category) =>
                     category.strCategory !== "Pork" &&
-                    category.strCategory !== "Miscellaneous"
+                    category.strCategory !== "Miscellaneous" &&
+                    category.strCategory !== "Goat" 
                 )
                 .map((category, index) => (
                   <CategoryCard
@@ -103,14 +104,14 @@ export default function Categories() {
                     <Link
                       to={`/recipe/${recipe.idMeal}`}
                       key={index}
-                      className="flex flex-col mb-4 bg-gray-100 shadow-lg rounded p-2 w-32 border-e-2 sm:w-48 sm:flex-basis-48 md:w-48 md:flex-basis-48 lg:w-24 lg:flex-basis-24 pb-8"
+                      className="flex flex-col mb-2 bg-gray-100 hover:bg-gray-200 shadow-lg rounded p-2 w-40 border-e-2 sm:w-48 sm:flex-basis-48 md:w-52 md:flex-basis-48 lg:w-60 lg:flex-basis-24 pb-8"
                     >
                       <img
                         src={recipe.strMealThumb}
                         alt="loading"
                         className="w-full h-32 rounded-lg mb-2 object-cover"
                       />
-                      <p className="text-sm font-medium underline text-center max-w-32">
+                      <p className="text-sm font-medium underline text-center max-w-full">
                         {recipe.strMeal}
                       </p>
                     </Link>

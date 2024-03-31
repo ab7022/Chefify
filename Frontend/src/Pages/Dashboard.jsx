@@ -148,7 +148,7 @@ export default function Dashboard() {
       ) : (
         <div className="pt-6 md:pt-52 p-3 bg-gray-100 min-h-screen">
           <Navbar />
-          <div className="max-w-2xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             <p className="text-gray-700 font-medium text-xl">Good Morning</p>
             <h1 className="text-2xl font-bold mb-1">Discover New Recipes</h1>
             <div className="mt-3 w-full flex flex-row items-center">

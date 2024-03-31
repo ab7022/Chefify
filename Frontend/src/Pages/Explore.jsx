@@ -74,15 +74,15 @@ export default function Explore() {
       ) : (
         <>
           <Navbar />
-          <div className="max-w-2xl mx-auto p-6 md:mt-24">
-            <h1 className="text-4xl font-bold mb-4 text-gray-800">
+          <div className="w-full p-6 md:mt-24 mx-auto">
+            <h1 className="text-4xl font-bold mb-4 text-gray-800 text-center">
               Explore New Recipes
             </h1>
-            <div className="flex items-center my-6">
+            <div className="flex items-center my-6 max-w-3xl md:w-6xl mx-auto">
               <input
                 type="text"
                 placeholder="Search for recipes"
-                className="flex-1 border p-3 rounded-md focus:outline-none"
+                className="flex border p-3 rounded-md focus:outline-none w-full"
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button
@@ -93,7 +93,7 @@ export default function Explore() {
               </button>
             </div>
           </div>
-          <section className="mt-8 glassmorphism-secondary p-3 bg-gray-50 w-4xl flex flex-col">
+          <section className="mt-8 glassmorphism-secondary p-3 bg-gray-50 w-3xl flex flex-col">
             <div className="flex flex-wrap gap-5 mb-1 max-w-4xl justify-center items-center">
               {apiDataSearch.map((recipe, index) => (
                 <Link to={`/recipe/${recipe.idMeal}`} key={index} className="w-full md:w-5/12 flex-wrap">

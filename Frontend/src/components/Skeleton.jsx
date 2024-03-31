@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 
 const SkeletonCard = () => {
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">
         <Skeleton height={40} width={200} />
       </h1>

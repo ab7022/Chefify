@@ -12,13 +12,18 @@ const Signup = () => {
   console.log(password);
   const signup = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/signup", {
+      const response = await axios.post("http://localhost:4000/signup", {
         name,
         username,
         password,
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+      localStorage.setItem("token", response.data.token);
       setResponseMessage(response.data.msg);
-      if (response.data.msg === "Login successful") {
+      if (response.data.msg === "Account created successfully") {
         navigate("/profile");
       }
     } catch (error) {
