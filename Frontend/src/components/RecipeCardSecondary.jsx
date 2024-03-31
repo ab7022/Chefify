@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 
-const RecipeCardSecondary = ({ image, name, category, area }) => {
+const RecipeCardSecondary = ({ image, name, category, area ,handleImageLoad}) => {
   const randomColorClasses = [
     "bg-purple-200",
     "bg-gray-200",
@@ -17,12 +17,13 @@ const RecipeCardSecondary = ({ image, name, category, area }) => {
 
 
   return (
-    <div className="recipe-card bg-gray-100 rounded-md overflow-hidden border border-gray-300">
-      <div className="image-container bg-white flex justify-center items-center h-36 object-cover">
+    <div className="recipe-card bg-gray-100 hover:bg-gray-200 rounded-md overflow-hidden border border-gray-300">
+      <div className="image-container bg-white flex justify-center items-center h-44 object-cover">
         <img
           src={image}
           alt={name}
           className="max-w-full max-h-full w-full object-cover rounded-t-md"
+          onLoad={handleImageLoad}
         />
       </div>
       <div className="p-2">

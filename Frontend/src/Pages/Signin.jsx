@@ -66,15 +66,15 @@ const Signin = () => {
               type="button"
               onClick={signin}
             >
-              Sign Up
+              Sign In
             </button>
           </form>
 
           <div className="mt-4 flex flex-row">
             <p className="text-gray-500 text-sm">
-              Already a member?{" "}
-              <a href="#/signin" className="text-sm text-black font-bold underline">
-                Log in here
+              Don't have an account?{" "}
+              <a href="#/signup" className="text-sm text-black font-bold underline">
+                Create here
               </a>
               .
             </p>
