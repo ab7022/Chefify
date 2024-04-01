@@ -4,12 +4,13 @@ import Footer from "../components/Footer";
 import Typewriter from "typewriter-effect";
 import axios from "axios";
 import { TextDecoder } from 'text-encoding';
+import ReactMarkdown from 'react-markdown';
 
 export default function AiSearch() {
   const [placeholderText, setPlaceholderText] = useState("");
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [prompt, setPrompt] = useState("");
-  const [responseChunks, setResponseChunks] = useState([]); // Store chunks in an array
+  const [responseChunks, setResponseChunks] = useState([]);
   const [response, setResponse] = useState("");
   const placeholders = [
     "Enter Dish name",
@@ -18,63 +19,7 @@ export default function AiSearch() {
     "Find a New Favorite",
     "Explore Cuisines",
   ];
-  useEffect(() => {
-    // Concatenate all chunks into a single string
-    const concatenatedResponse = responseChunks.join('');
-    setResponse(concatenatedResponse);
-  }, [responseChunks]);
-
-  const updatedPrompt = "show me a recipe step by step with all ingredients which is" + prompt;
-  const fetchData = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/Aisearch", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt:updatedPrompt }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const reader = response.body.getReader();
-
-      let chunks = [];
-      let result = await reader.read();
-      while (!result.done) {
-        chunks.push(result.value);
-        result = await reader.read();
-      }
-
-      // Concatenate the chunks into a single Uint8Array
-      const concatenatedChunks = chunks.reduce(
-        (accumulator, chunk) => {
-          const tempArray = new Uint8Array(accumulator.length + chunk.length);
-          tempArray.set(accumulator, 0);
-          tempArray.set(chunk, accumulator.length);
-          return tempArray;
-        },
-        new Uint8Array(0)
-      );
-
-      // Decode the concatenated chunks into a string
-      const decodedResponse = new TextDecoder().decode(concatenatedChunks);
-
-      // Split the decoded response into chunks
-      const chunkSize = 100;
-      const decodedResponseChunks = [];
-      for (let i = 0; i < decodedResponse.length; i += chunkSize) {
-        decodedResponseChunks.push(decodedResponse.slice(i, i + chunkSize));
-      }
-
-      setResponseChunks(decodedResponseChunks);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setPlaceholderIndex((prevIndex) =>
@@ -91,8 +36,50 @@ export default function AiSearch() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setResponseChunks([]); // Clear previous response chunks
+    setResponseChunks([]);
     fetchData();
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Pop the first chunk from the responseChunks array
+      const chunk = responseChunks.shift();
+      if (chunk) {
+        // Update the response state with the new chunk
+        setResponse((prevResponse) => prevResponse + chunk);
+      }
+    }, 1000); // Adjust the interval as needed
+    
+    // Clear the interval on component unmount
+    return () => clearInterval(interval);
+  }, [responseChunks]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/Aisearch", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+
+      let chunks = [];
+      let result = await reader.read();
+      while (!result.done) {
+        chunks.push(new TextDecoder().decode(result.value));
+        setResponseChunks(chunks); // Update UI with each chunk received
+        result = await reader.read();
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   return (
@@ -132,16 +119,11 @@ export default function AiSearch() {
             Search
           </button>
         </div>
-        <div className="my-20 px-8">
-  {responseChunks.map((chunk, index) => (
-    <div key={index}>{chunk}</div>
-  ))}
-</div>
-      <div>{response}</div>
+        <div className="my-8 px-8">
+          <ReactMarkdown>{response}</ReactMarkdown>
+        </div>
       </div>
       <Footer />
-      {/* Render response chunks */}
-
     </div>
   );
 }
