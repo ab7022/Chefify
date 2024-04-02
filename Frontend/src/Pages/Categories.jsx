@@ -7,7 +7,7 @@ import Footer from "../components/Footer";
 import RecipeCard from "../components/RecipeCard";
 import CategoryCard from "../components/CategoryCard";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Categories() {
   const [response, setResponse] = useState({ categories: [] });
@@ -51,6 +51,7 @@ export default function Categories() {
       handleCategoryClick("Beef");
     }
   }, [selectedCategory]);
+  const navigate = useNavigate()
   return (
     <div className="glassmorphism-bg">
       <div className="pt-6 md:pt-52 p-3 bg-gray-100 min-h-screen">
@@ -63,7 +64,7 @@ export default function Categories() {
             <input
               type="text"
               placeholder="Search for recipes"
-              className="border py-3 rounded-md p-4 w-full focus:outline-none"
+              className="border py-3 rounded-md p-4 w-full focus:outline-none" onClick={() => {navigate("/explore")}}
             />
             <div className="ml-1 p-3 px-5 bg-orange-500 rounded hover:bg-orange-600">
               <FontAwesomeIcon icon={faSearch} color="white" />

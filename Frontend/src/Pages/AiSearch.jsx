@@ -12,6 +12,7 @@ export default function AiSearch() {
   const [prompt, setPrompt] = useState("");
   const [responseChunks, setResponseChunks] = useState([]);
   const [response, setResponse] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const placeholders = [
     "Enter Dish name",
     "Mutton Biryani",
@@ -36,7 +37,9 @@ export default function AiSearch() {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setResponse("")
     setResponseChunks([]);
+    setIsLoading(true);
     fetchData();
   };
 
@@ -54,6 +57,9 @@ export default function AiSearch() {
     return () => clearInterval(interval);
   }, [responseChunks]);
 
+  const updatedPrompt = `Imagine you're the world's best chef, ready to share your expertise. First, please tell me the ${prompt}. give me it—details, ingredients, instructions, and recipe. Remember, I'm only equipped to discuss culinary topics, so let's focus on cooking up something amazing!
+  `;
+
   const fetchData = async () => {
     try {
       const response = await fetch("http://localhost:4000/Aisearch", {
@@ -61,7 +67,7 @@ export default function AiSearch() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt:updatedPrompt }),
       });
 
       if (!response.ok) {
@@ -73,20 +79,23 @@ export default function AiSearch() {
       let chunks = [];
       let result = await reader.read();
       while (!result.done) {
+
         chunks.push(new TextDecoder().decode(result.value));
         setResponseChunks(chunks); // Update UI with each chunk received
         result = await reader.read();
       }
+      setIsLoading(false); // Set loading to false once response is received
     } catch (error) {
       console.error("Error fetching data:", error);
+      setIsLoading(false); // Set loading to false if there's an error
     }
   };
 
   return (
-    <div className="min-h-screen font-sans bg-gradient-to-t from-white to-orange-100">
-      <Navbar />
-      <div className="h-screen flex flex-col justify-start md:justify-center items-center">
-        <div className="text-gray-800 text-5xl font-bold md:text-6xl p-6 text-center mt-24 md:mt-0">
+    <div className="font-sans bg-gradient-to-t from-white to-orange-100 max-h-full">
+    <Navbar />
+    <div className=" flex flex-col justify-start md:justify-center items-center ">
+        <div className="text-gray-800 text-5xl font-bold md:text-6xl p-6 text-center mt-60 md:mt-60">
           <Typewriter
             onInit={(typewriter) => {
               typewriter
@@ -119,9 +128,13 @@ export default function AiSearch() {
             Search
           </button>
         </div>
-        <div className="my-8 px-8">
-          <ReactMarkdown>{response}</ReactMarkdown>
-        </div>
+        {isLoading && <p className="mt-8 text-gray-700 bg-white px-4 py-2 shadow-xl rounded-xl">Finding Best Recipes for you...</p>}
+        {response && (
+          <div className="my-8  px-8 mb-52 bg-orange-50 p-4 w-11/12 md:w-10/12 border-2 border-yellow-100 drop-shadow-2xl md:max-w-6xl rounded-xl ">
+            <ReactMarkdown className="mb-16">{response}</ReactMarkdown>
+          </div>
+        )}
+        
       </div>
       <Footer />
     </div>

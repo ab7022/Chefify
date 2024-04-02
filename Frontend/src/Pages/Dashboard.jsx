@@ -155,7 +155,7 @@ export default function Dashboard() {
               <input
                 type="text"
                 placeholder="Search for recipes"
-                className="border py-3 rounded-md p-4 w-full focus:outline-none"
+                className="border py-3 rounded-md p-4 w-full focus:outline-none" onClick={() => {navigate("/explore")}}
               />
               <div className="ml-1 p-3 px-5 bg-orange-500 rounded hover:bg-orange-600">
                 <FontAwesomeIcon icon={faSearch} color="white" />
