@@ -24,7 +24,13 @@ function authMiddleware(req,res,next){
     next()
 }
 
-
+export const config = {
+    runtime: "edge",
+    unstable_allowDynamic: [
+        '**/node_modules/lodash/**/*.js',
+   ],
+};
 module.exports = {
-    authMiddleware
+    authMiddleware,
+    config
 }
