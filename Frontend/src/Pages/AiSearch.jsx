@@ -3,8 +3,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Typewriter from "typewriter-effect";
 import axios from "axios";
-import { TextDecoder } from 'text-encoding';
-import ReactMarkdown from 'react-markdown';
+import { TextDecoder } from "text-encoding";
+import ReactMarkdown from "react-markdown";
 
 export default function AiSearch() {
   const [placeholderText, setPlaceholderText] = useState("");
@@ -20,11 +20,11 @@ export default function AiSearch() {
     "Find a New Favorite",
     "Explore Cuisines",
   ];
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setPlaceholderIndex((prevIndex) =>
-        prevIndex === placeholders.length - 1? 0 : prevIndex + 1
+        prevIndex === placeholders.length - 1 ? 0 : prevIndex + 1
       );
     }, 3000); // Change placeholder every 3 seconds
 
@@ -37,7 +37,7 @@ export default function AiSearch() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setResponse("")
+    setResponse("");
     setResponseChunks([]);
     setIsLoading(true);
     fetchData();
@@ -52,22 +52,27 @@ export default function AiSearch() {
         setResponse((prevResponse) => prevResponse + chunk);
       }
     }, 1000); // Adjust the interval as needed
-    
+
     // Clear the interval on component unmount
     return () => clearInterval(interval);
   }, [responseChunks]);
 
-  const updatedPrompt = `Imagine you're the world's best chef, ready to share your expertise. First, please tell me the ${prompt}. give me it—details, ingredients, instructions, and recipe. Remember, I'm only equipped to discuss culinary topics, so let's focus on cooking up something amazing!
-  `;
+  const updatedPrompt = `Welcome to our culinary realm! Please share a food dish you'd like to explore. Provide all the details, ingredients, instructions, and recipe for the ${prompt}. Our discussion will strictly revolve around food, ensuring the most delectable results.`;
+
+
 
   const fetchData = async () => {
+    if (prompt == "") {
+      setIsLoading(false);
+      return;
+    }
     try {
       const response = await fetch("http://localhost:4000/Aisearch", {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt:updatedPrompt }),
+        body: JSON.stringify({ prompt: updatedPrompt }),
       });
 
       if (!response.ok) {
@@ -79,7 +84,6 @@ export default function AiSearch() {
       let chunks = [];
       let result = await reader.read();
       while (!result.done) {
-
         chunks.push(new TextDecoder().decode(result.value));
         setResponseChunks(chunks); // Update UI with each chunk received
         result = await reader.read();
@@ -92,10 +96,10 @@ export default function AiSearch() {
   };
 
   return (
-    <div className="font-sans bg-gradient-to-t from-white to-orange-100 max-h-full">
-    <Navbar />
-    <div className=" flex flex-col justify-start md:justify-center items-center ">
-        <div className="text-gray-800 text-5xl font-bold md:text-6xl p-6 text-center mt-60 md:mt-60">
+    <div className="font-sans bg-gradient-to-br from-lime-100  via-blue-50 via-yellow-50 via-red-50 to-green-50 min-h-screen">
+      <Navbar />
+      <div className=" flex flex-col justify-start md:justify-center items-center ">
+        <div className="text-gray-800 text-5xl font-bold md:text-6xl p-6 text-center mt-36 md:mt-80  ">
           <Typewriter
             onInit={(typewriter) => {
               typewriter
@@ -124,17 +128,34 @@ export default function AiSearch() {
             className="border-2 border-orange-500 rounded-md px-4 py-2 focus:outline-none w-full"
             onChange={(e) => setPrompt(e.target.value)}
           />
-          <button className="bg-transparent border-2 border-orange-500 text-gray-700 px-6 py-2 rounded-md hover:bg-orange-600 transition duration-300 ease-in-out hover:text-white" onClick={handleSearch}>
+          <button
+            className="bg-transparent border-2 border-orange-500 text-gray-700 px-6 py-2 rounded-md hover:bg-orange-600 transition duration-300 ease-in-out hover:text-white"
+            onClick={handleSearch}
+          >
             Search
           </button>
         </div>
-        {isLoading && <p className="mt-8 text-gray-700 bg-white px-4 py-2 shadow-xl rounded-xl">Finding Best Recipes for you...</p>}
-        {response && (
-          <div className="my-8  px-8 mb-52 bg-orange-50 p-4 w-11/12 md:w-10/12 border-2 border-yellow-100 drop-shadow-2xl md:max-w-6xl rounded-xl ">
-            <ReactMarkdown className="mb-16">{response}</ReactMarkdown>
-          </div>
+        {isLoading && (
+          <p className="mt-8 text-gray-700 bg-white px-4 py-2 shadow-xl rounded-xl">
+            Finding Best Recipes for you...
+          </p>
         )}
-        
+
+        {response && (
+          <div className="my-8  px-4 md:px-8 mb-52 bg-transparent p-4 w-11/12 md:w-10/12  border-gray-50 border-4 drop-shadow-2xl md:max-w-6xl rounded-xl relative">
+            <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-30 backdrop-blur-lg rounded-xl"></div>
+            <ReactMarkdown className="mb-16 z-10 relative text-lg">
+              {response}
+         
+            </ReactMarkdown>
+            {!isLoading && (
+            <p className="text-black mb-16 z-10 relative text-lg text-center font-bold">
+            "Your culinary journey is a canvas waiting for your colorful strokes. Keep creating delicious masterpieces!"</p>
+          )
+          }
+          </div>
+          
+        )}
       </div>
       <Footer />
     </div>

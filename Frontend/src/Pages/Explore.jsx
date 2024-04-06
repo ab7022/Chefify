@@ -5,10 +5,14 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { apiEndpointsCategory, apiEndpointsSearch } from "../components/APIEndpoint";
+import {
+  apiEndpointsCategory,
+  apiEndpointsSearch,
+} from "../components/APIEndpoint";
 import RecipeCardSecondary from "../components/RecipeCardSecondary";
 import SkeletonCard from "../components/Skeleton";
-import 'react-loading-skeleton/dist/skeleton.css';
+import "react-loading-skeleton/dist/skeleton.css";
+import Typewriter from "typewriter-effect";
 
 export default function Explore() {
   const navigate = useNavigate();
@@ -29,12 +33,22 @@ export default function Explore() {
       const randomCategoryEndpoint = getRandomEndpoint(apiEndpointsCategory);
       const randomSearchEndpoint = getRandomEndpoint(apiEndpointsSearch);
 
-      const categoryResponse = await axios.get(`https://www.themealdb.com/api/json/v1/1/${randomCategoryEndpoint}`);
-      const searchResponse = await axios.get(`https://www.themealdb.com/api/json/v1/1/${randomSearchEndpoint}`);
+      const categoryResponse = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/${randomCategoryEndpoint}`
+      );
+      const searchResponse = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/${randomSearchEndpoint}`
+      );
 
       // Update state with fetched data
-      setApiDataCategory((prevData) => [...prevData, ...(categoryResponse.data.meals || [])]);
-      setApiDataSearch((prevData) => [...prevData, ...(searchResponse.data.meals || [])]);
+      setApiDataCategory((prevData) => [
+        ...prevData,
+        ...(categoryResponse.data.meals || []),
+      ]);
+      setApiDataSearch((prevData) => [
+        ...prevData,
+        ...(searchResponse.data.meals || []),
+      ]);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -55,7 +69,9 @@ export default function Explore() {
     if (!search) return;
     setLoading(true);
     try {
-      const response = await axios.get(`https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`);
+      const response = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/search.php?s=${search}`
+      );
       setApiDataSearch(response.data.meals || []);
     } catch (error) {
       console.error("Error fetching search data:", error);
@@ -67,15 +83,14 @@ export default function Explore() {
   return (
     <div className="glassmorphism-bg min-h-screen max-w-full flex flex-col justify-center align-middle items-center">
       {loading ? (
-        <div className="w-full">
-                  <SkeletonCard />
-
-           </div>
+        <div className="min-w-full">
+          <SkeletonCard />
+        </div>
       ) : (
         <>
           <Navbar />
           <div className="w-full p-6 md:mt-24 mx-auto">
-            <h1 className="text-4xl font-bold mb-4 text-gray-800 text-center">
+            <h1 className="text-4xl font-bold mb-4 mt-4 text-gray-800 text-center">
               Explore New Recipes
             </h1>
             <div className="flex items-center my-6 max-w-3xl md:w-6xl mx-auto">
@@ -91,12 +106,20 @@ export default function Explore() {
               >
                 <FontAwesomeIcon icon={faSearch} />
               </button>
+             
             </div>
+            <div className="mt-2 text-gray-600 text-sm text-center">Try <a href="#/aisearch" className=" text-purple-500">AI Search</a> for more culinary delights!</div>
+
           </div>
+        
           <section className="mt-8 glassmorphism-secondary p-3 bg-gray-50 w-3xl flex flex-col">
             <div className="flex flex-wrap gap-5 mb-1 max-w-4xl justify-center items-center">
               {apiDataSearch.map((recipe, index) => (
-                <Link to={`/recipe/${recipe.idMeal}`} key={index} className="w-full md:w-5/12 flex-wrap">
+                <Link
+                  to={`/recipe/${recipe.idMeal}`}
+                  key={index}
+                  className="w-full md:w-5/12 flex-wrap"
+                >
                   <RecipeCardSecondary
                     image={recipe.strMealThumb}
                     name={recipe.strMeal}
@@ -108,7 +131,11 @@ export default function Explore() {
             </div>
             <div className="flex flex-wrap gap-5 mb-1 max-w-4xl justify-center items-center">
               {apiDataCategory.map((recipe, index) => (
-                <Link to={`/recipe/${recipe.idMeal}`} key={index} className="w-full md:w-5/12 flex-wrap">
+                <Link
+                  to={`/recipe/${recipe.idMeal}`}
+                  key={index}
+                  className="w-full md:w-5/12 flex-wrap"
+                >
                   <RecipeCardSecondary
                     image={recipe.strMealThumb}
                     name={recipe.strMeal}
