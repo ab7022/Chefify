@@ -1,7 +1,7 @@
 const express = require("express");
 const { User } = require("./database");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken-plus");
 const JWT_SECRET = require("./config");
 const { authMiddleware } = require("./middleware");
 router.use(express.json());
