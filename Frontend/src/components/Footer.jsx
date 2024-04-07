@@ -12,10 +12,10 @@ export default function Footer() {
 
   return (
     <div className="fixed bottom-0 w-full h-14 bg-white border-t border-gray-300 flex justify-around items-center md:hidden">
-      <Link to="/a">
+      <Link to="/home">
         <div className="text-center">
-          <FontAwesomeIcon icon={faHome} size="xl" color={location.pathname === "/a" ? "#e39b59" : "#7b7b7b"} />
-          <p className={`text-sm ${location.pathname === "/a" ? "text-orange-500" : "text-gray-600"}`}>Home</p>
+          <FontAwesomeIcon icon={faHome} size="xl" color={location.pathname === "/home" ? "#e39b59" : "#7b7b7b"} />
+          <p className={`text-sm ${location.pathname === "/home" ? "text-orange-500" : "text-gray-600"}`}>Home</p>
         </div>
       </Link>
       <Link to="/explore">

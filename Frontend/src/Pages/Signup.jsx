@@ -24,7 +24,7 @@ const Signup = () => {
       localStorage.setItem("token", response.data.token);
       setResponseMessage(response.data.msg);
       if (response.data.msg === "Account created successfully") {
-        navigate("/profile");
+        navigate("/home");
       }
     } catch (error) {
       console.error("Error during signup:", error);

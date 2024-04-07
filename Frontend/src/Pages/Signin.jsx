@@ -24,7 +24,7 @@ const Signin = () => {
         localStorage.setItem("token", response.data.token);
 
         if (response.data.msg === "Login successful") {
-          navigate("/profile");
+          navigate("/home");
         }
     } catch (error) {
       console.error("Error during signup:", error);
