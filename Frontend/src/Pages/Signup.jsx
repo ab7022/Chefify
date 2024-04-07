@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 const Signup = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
-  console.log(name);
-  console.log(username);
-  console.log(password);
+
   const signup = async () => {
     try {
       const response = await axios.post("https://foodie-five-pi.vercel.app/signup", {
@@ -32,8 +32,10 @@ const Signup = () => {
   };
   return (
 <div className="flex items-center justify-center h-screen bg-gradient-to-b from-white via-gray-100 to-gray-200">
+<Navbar/>
+
       <div className="m-6">
-        <div className="bg-white p-8 rounded-lg shadow-lg">
+        <div className="bg-white p-8 rounded-lg shadow-lg md:mt-20">
           <div className="text-center mb-6">
             <h1 className="text-4xl font-extrabold text-orange-500 mb-2">
               Foodiee
@@ -113,6 +115,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

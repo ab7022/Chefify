@@ -1,4 +1,3 @@
-// Import necessary dependencies and components
 import React, { useEffect, useState } from "react";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
 import { BsPerson } from "react-icons/bs";
@@ -7,18 +6,17 @@ import Footer from "../components/Footer";
 import "../signin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [likes, setLikes] = useState([]);
-  console.log(userData);
+
   function setLogout() {
     localStorage.clear();
   }
 
-  console.log(userData.likes);
-  // Placeholder data for likes, favorites, and user recipes
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +48,7 @@ const Profile = () => {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-orange-400">
-              {userData.name}
+              {userData.name || "Loading..."}
             </h1>
             <p className="text-gray-600 text-center text-sm">
               {userData.username}
@@ -68,7 +66,7 @@ const Profile = () => {
           </div>
           <ul className="list-disc pl-6">
             {likes.map((like, index) => (
-              <li key={index} className="text-gray-700 mb-2">
+              <li key={index} className="text-gray-700 mb-2 underline pb-1">
                 <a href={`/#/recipe/${like.recipeId}`}>{like.recipeName}</a>
               </li>
             ))}
@@ -83,6 +81,30 @@ const Profile = () => {
         </button>
       </div>
 
+      <div className="container mx-auto p-6  md:max-w-4xl flex flex-col flex-wrap ">
+        <div className="bg-white p-4 rounded-lg shadow-md mb-8 flex  flex-col">
+          <h2 className="text-2xl font-bold text-orange-400 flex my-1 items-center p-2">
+            <AiOutlineStar className="mr-2" />
+            About Developer
+          </h2>
+        
+        <p className="text-gray-700 mb-2  pb-1 px-2">
+          Hello! I'm a passionate developer who loves building web applications.
+          Feel free to connect with me on social media.
+        </p>
+        <div className="flex items-center mb-4 mx-2">
+          {/* LinkedIn Icon */}
+          <a href="https://www.linkedin.com/in/abdul-bayees-2941b6202/" target="_blank" rel="noopener noreferrer">
+            <FaLinkedin className="text-blue-600 w-10 h-10 mr-4" />
+          </a>
+          {/* GitHub Icon */}
+          <a href="https://github.com/ab7022" target="_blank" rel="noopener noreferrer">
+            <FaGithub className="text-gray-800 w-10 h-10 mr-4" />
+          </a>
+          {/* Add more icons for other social media platforms if needed */}
+        </div>
+      </div>
+      </div>
       <Footer />
     </div>
   );

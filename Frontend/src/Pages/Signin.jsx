@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 
 const Signin = () => {
   const navigate = useNavigate()
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [responseMessage,setResponseMessage]= useState("")
-  console.log(username);
-  console.log(password);
+ 
   const signin = async () => {
     try {
       const response = await axios.post(
@@ -32,6 +33,7 @@ const Signin = () => {
   };
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-b from-white via-gray-100 to-gray-200">
+      <Navbar/>
       <div className="m-6">
         <div className="bg-white p-8 rounded-lg shadow-lg">
           <div className="text-center mb-6">
@@ -88,6 +90,7 @@ const Signin = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

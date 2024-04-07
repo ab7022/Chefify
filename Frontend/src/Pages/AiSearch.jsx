@@ -17,8 +17,8 @@ export default function AiSearch() {
     "Enter Dish name",
     "Mutton Biryani",
     "Chicken Tikka Masala",
-    "Find a New Favorite",
-    "Explore Cuisines",
+    "Mutton Beef",
+    "Cheese Cake",
   ];
 
   useEffect(() => {
@@ -96,10 +96,12 @@ export default function AiSearch() {
   };
 
   return (
-    <div className="font-sans bg-gradient-to-br from-yellow-100  via-blue-100 via-gray-50 via-indigo-50 to-red-100 min-h-screen">
+    <div className="font-sans bg-gradient-to-tr from-yellow-100  via-blue-100 via-gray-50 via-indigo-50 to-red-100 min-h-screen">
       <Navbar />
       <div className=" flex flex-col justify-start md:justify-center items-center ">
-        <div className="text-gray-800 text-5xl font-bold md:text-6xl p-6 text-center mt-36 md:mt-80  ">
+        <div className="text-black text-5xl font-bold md:text-6xl p-6 text-center mt-36 md:mt-80  ">
+
+
           <Typewriter
             onInit={(typewriter) => {
               typewriter
@@ -143,7 +145,7 @@ export default function AiSearch() {
 
         {response && (
           <div className="my-8  px-4 md:px-8 mb-52 bg-transparent p-4 w-11/12 md:w-10/12  border-gray-50 border-4 drop-shadow-2xl md:max-w-6xl rounded-xl relative">
-            <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-40 backdrop-blur-lg rounded-xl"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-50 backdrop-blur-lg rounded-xl"></div>
             <ReactMarkdown className="mb-16 z-10 relative text-lg">
               {response}
          

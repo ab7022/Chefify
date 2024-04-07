@@ -27,11 +27,7 @@ export default function Categories() {
     };
 
     fetchData();
-  }, []); // empty dependency array
-
-  useEffect(() => {
-    console.log(response);
-  }, [response]); // log the updated state
+  }, []); 
 
   const handleCategoryClick = async (categoryName) => {
     try {

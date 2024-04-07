@@ -11,6 +11,7 @@ import { apiEndpointsCategory, apiEndpointsSearch } from "../components/APIEndpo
 import SkeletonCard from "../components/Skeleton";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import Greeting from "./Greeting";
 export default function Dashboard() {
   const navigate = useNavigate();
   const [response, setResponse] = useState({ categories: [] });
@@ -34,7 +35,6 @@ export default function Dashboard() {
         setSelectedRecipe(result.data.meals[0]);
         setShowFullInstructions(false); // Reset to truncate instructions
       }
-      console.log(result.data);
     } catch (error) {
       console.error("Error fetching random recipe:", error);
     }
@@ -114,12 +114,6 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log(response);
-    console.log(apiDataSearch);
-    console.log(apiDataCategory);
-  }, [response]);
-
   const [selectedCategory, setSelectedCategory] = useState();
   const [recipes, setRecipes] = useState([]);
 
@@ -149,7 +143,8 @@ export default function Dashboard() {
         <div className="pt-6 md:pt-52 p-3 bg-gray-100 min-h-screen">
           <Navbar />
           <div className="max-w-3xl mx-auto">
-            <p className="text-gray-700 font-medium text-xl">Good Morning</p>
+            {/* <p className="text-gray-700 font-medium text-xl">Good Morning</p> */}
+            <Greeting/>
             <h1 className="text-2xl font-bold mb-1">Discover New Recipes</h1>
             <div className="mt-3 w-full flex flex-row items-center">
               <input

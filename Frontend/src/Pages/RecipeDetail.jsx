@@ -16,8 +16,7 @@ const RecipeDetail = () => {
   const [recipeDetail, setRecipeDetail] = useState(null);
   const [isLoved, setIsLoved] = useState(false); // State to manage loved status
   const handleLove = () => {
-    setIsLoved(!isLoved); // Toggle love status
-    // Further logic for loving the recipe
+    setIsLoved(!isLoved); 
   };
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ rating: 0, text: "" });
@@ -127,11 +126,9 @@ const RecipeDetail = () => {
     );
   };
   const handleLike = async () => {
-console.log(recipeDetail);
     try {
       handleLove();
-      console.log("clicked");
-      // Call backend endpoint to like the recipe
+    
       const response = await axios.post('https://foodie-five-pi.vercel.app/like', 
         {  recipeId: recipeDetail.idMeal,recipeName:recipeDetail.strMeal },
         {
