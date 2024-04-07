@@ -68,7 +68,7 @@ const LandingPage = () => {
             <div className="hidden md:block">
               <button
                 onClick={() => {
-                  navigate("/a");
+                  navigate("/home");
                 }}
                 className="bg-orange-500 text-white border py-2 px-6 md:px-8 rounded-lg border-transparent ml-14 mt-4 font-extrabold text-lg shadow mx-0 hover:bg-orange-600"
                 aria-label="Login"
