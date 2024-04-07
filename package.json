@@ -12,6 +12,7 @@
     "express-rate-limit": "^7.2.0",
     "jose": "^5.2.3",
     "jsonwebtoken": "^9.0.2",
+    "lru-cache": "^10.2.0",
     "mongoose": "^5.13.0",
     "postcss": "^8.4.35",
     "react": "^18.2.0",
