@@ -11,7 +11,7 @@ const cors = require("cors");
 const { GoogleGenerativeAI,HarmBlockThreshold, HarmCategory } = require("@google/generative-ai");
 
 // app.use(express.json());
-app.use(cors());
+// app.use(cors());
 
 dotenv.config();
 router.post("/signup", async function signup(req, res) {
