@@ -10,11 +10,13 @@ import Explore from "./Pages/Explore";
 import Categories from "./Pages/Categories";
 import RecipeDetail from "./Pages/RecipeDetail";
 import AiSearch from "./Pages/AiSearch";
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
     <div>
       <Router>
+        <Analytics/>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Dashboard />} />
