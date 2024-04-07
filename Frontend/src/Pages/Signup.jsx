@@ -12,7 +12,7 @@ const Signup = () => {
   console.log(password);
   const signup = async () => {
     try {
-      const response = await axios.post("http://localhost:4000/signup", {
+      const response = await axios.post("https://foodie-five-pi.vercel.app/signup", {
         name,
         username,
         password,

@@ -67,7 +67,7 @@ export default function AiSearch() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:4000/Aisearch", {
+      const response = await fetch("https://foodie-five-pi.vercel.app/Aisearch", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

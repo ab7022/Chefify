@@ -19,11 +19,10 @@ const Profile = () => {
 
   console.log(userData.likes);
   // Placeholder data for likes, favorites, and user recipes
-  const reviews = ["Review 1", "Review 2", "Review 3"];
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/profile", {
+        const response = await axios.get("https://foodie-five-pi.vercel.app/profile", {
           headers: {
             Authorization: `${localStorage.getItem("token")}`,
           },

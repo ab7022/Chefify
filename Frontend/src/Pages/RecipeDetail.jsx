@@ -132,7 +132,7 @@ console.log(recipeDetail);
       handleLove();
       console.log("clicked");
       // Call backend endpoint to like the recipe
-      const response = await axios.post('http://localhost:4000/like', 
+      const response = await axios.post('https://foodie-five-pi.vercel.app/like', 
         {  recipeId: recipeDetail.idMeal,recipeName:recipeDetail.strMeal },
         {
           headers: {
@@ -154,7 +154,7 @@ console.log(recipeDetail);
   const handleUnlike = async () => {
     try {
       // Call backend endpoint to unlike the recipe
-      const response = await fetch('https://localhost:4000/like', {
+      const response = await fetch('https://foodie-five-pi.vercel.app/like', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
