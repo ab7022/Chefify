@@ -3,7 +3,7 @@ const { User } = require("./database");
 const router = express.Router();
 const jwt = require("jsonwebtoken-plus");
 const JWT_SECRET = require("./config");
-const { authMiddleware } = require("./middleware");
+// const { authMiddleware } = require("./middleware");
 router.use(express.json());
 const dotenv = require("dotenv");
 const rateLimit = require("express-rate-limit");
@@ -67,7 +67,7 @@ router.post("/signin", async function signin(req, res) {
   }
 });
 
-router.get("/profile", authMiddleware, async function profile(req, res) {
+router.get("/profile", async function profile(req, res) {
   try {
     const userId = req.userId;
     const user = await User.findById(userId);
