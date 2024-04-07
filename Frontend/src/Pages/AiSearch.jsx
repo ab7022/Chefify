@@ -5,6 +5,7 @@ import Typewriter from "typewriter-effect";
 import axios from "axios";
 import { TextDecoder } from "text-encoding";
 import ReactMarkdown from "react-markdown";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function AiSearch() {
   const [placeholderText, setPlaceholderText] = useState("");
@@ -76,6 +77,8 @@ export default function AiSearch() {
       });
 
       if (!response.ok) {
+        toast.error("Please Try Again")
+
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -100,7 +103,7 @@ export default function AiSearch() {
       <Navbar />
       <div className=" flex flex-col justify-start md:justify-center items-center ">
         <div className="text-black text-5xl font-bold md:text-6xl p-6 text-center mt-36 md:mt-80  ">
-
+<Toaster/>
 
           <Typewriter
             onInit={(typewriter) => {

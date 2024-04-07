@@ -7,6 +7,8 @@ import "../signin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -16,7 +18,6 @@ const Profile = () => {
   function setLogout() {
     localStorage.clear();
   }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,12 +31,17 @@ const Profile = () => {
         setLikes(response.data.likes);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        navigate("/signin");
+        // navigate("/signin");
+        toast.error('Please login first');
+
       }
     };
 
     fetchData();
   }, []);
+
+
+  
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
@@ -56,7 +62,7 @@ const Profile = () => {
           </div>
           <BsPerson className="text-3xl  text-gray-600" />
         </div>
-
+        <Toaster/>
         <div className="bg-white p-4 rounded shadow-md mb-4">
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-2xl font-bold text-orange-400 flex items-center">
