@@ -42,7 +42,6 @@ export default function Categories() {
     }
   };
   useEffect(() => {
-    // Automatically select "Beef" when nothing is selected
     if (selectedCategory === null) {
       handleCategoryClick("Beef");
     }

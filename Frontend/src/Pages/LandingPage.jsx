@@ -1,27 +1,23 @@
 import { useEffect } from "react";
 import "../App.css";
 import Navbar from "../components/Navbar";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
-    // Add overflow-hidden class to the body for small screens
     if (window.innerWidth > 768) {
       document.body.classList.add("overflow-hidden");
     }
 
-    // Cleanup on component unmount
     return () => {
       document.body.classList.remove("overflow-hidden");
     };
   }, []);
   return (
     <div className="flex bg-gradient-to-br from-yellow-100  via-blue-50 via-gray-50 via-indigo-50 to-red-50  md:slate-50 flex-col md:flex-row relative">
-      {/* Background image for mobile (hidden on larger screens) */}
       <div className="w-full fixed inset-0 md:w-1/2 justify-center mt-0 md:mt-48 bg-image-md block md:hidden"></div>
 
-      {/* Left half of the screen */}
       <div className="flex flex-col justify-start h-screen w-screen md:w-1/2">
         <Navbar />
           <a href="#/home" className="md:hidden m-6 bg-white p-2 flex items-center w-16 rounded justify-center text-lg font-medium">skip</a>
@@ -80,10 +76,8 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* Background image for larger screens (hidden on mobile) */}
       <div className="w-full md:w-1/2 justify-center mt-8 md:mt-48 bg-image"></div>
 
-      {/* Additional element with bg-image2 */}
       <div className="w-1/12 bg-image2"></div>
     </div>
   );

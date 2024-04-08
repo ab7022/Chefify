@@ -31,10 +31,7 @@ const Profile = () => {
         setLikes(response.data.likes);
       } catch (error) {
         toast.error('Please login first');
-
         console.error("Error fetching user data:", error);
-        // navigate("/signin");
-
       }
     };
 

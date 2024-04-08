@@ -20,16 +20,14 @@ export default function Explore() {
   const [apiDataSearch, setApiDataSearch] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1); // Track current page for pagination
-
+  const [page, setPage] = useState(1); 
   useEffect(() => {
     fetchRandomData();
-  }, [page]); // Refetch data when page changes
+  }, [page]); 
 
   const fetchRandomData = async () => {
     setLoading(true);
     try {
-      // Fetch data for both category and search
       const randomCategoryEndpoint = getRandomEndpoint(apiEndpointsCategory);
       const randomSearchEndpoint = getRandomEndpoint(apiEndpointsSearch);
 
@@ -39,8 +37,6 @@ export default function Explore() {
       const searchResponse = await axios.get(
         `https://www.themealdb.com/api/json/v1/1/${randomSearchEndpoint}`
       );
-
-      // Update state with fetched data
       setApiDataCategory((prevData) => [
         ...prevData,
         ...(categoryResponse.data.meals || []),
@@ -62,7 +58,7 @@ export default function Explore() {
   };
 
   const loadMore = () => {
-    setPage(page + 1); // Increment page
+    setPage(page + 1); 
   };
 
   const handleSearch = async () => {

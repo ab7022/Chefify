@@ -1,4 +1,3 @@
-// components/CategoryCard.js
 import React from "react";
 
 const CategoryCard = ({ category, isSelected, onClick }) => (

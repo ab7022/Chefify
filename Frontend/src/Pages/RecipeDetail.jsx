@@ -15,7 +15,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const RecipeDetail = () => {
   const { id } = useParams();
   const [recipeDetail, setRecipeDetail] = useState(null);
-  const [isLoved, setIsLoved] = useState(false); // State to manage loved status
+  const [isLoved, setIsLoved] = useState(false);
   const handleLove = () => {
     setIsLoved(!isLoved); 
   };

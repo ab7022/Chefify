@@ -23,7 +23,7 @@ export default function Dashboard() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [showFullInstructions, setShowFullInstructions] = useState(false);
   const handleImageLoad = () => {
-    setLoading(false); // Set loading to false when an image is loaded
+    setLoading(false); 
   };
   const GetRandomMeal = async () => {
     try {
@@ -33,7 +33,7 @@ export default function Dashboard() {
       setrandomdetail(result.data);
       if (result.data.meals.length > 0) {
         setSelectedRecipe(result.data.meals[0]);
-        setShowFullInstructions(false); // Reset to truncate instructions
+        setShowFullInstructions(false); 
       }
     } catch (error) {
       console.error("Error fetching random recipe:", error);
@@ -134,11 +134,9 @@ export default function Dashboard() {
     <div className="glassmorphism-bg">
       {loading ? (
         <div> 
-          {/* <Skeleton count={20}/> */}
           <SkeletonCard />
 
         </div>
-        // <p>Loading</p>
       ) : (
         <div className="pt-6 md:pt-52 p-3 bg-gray-100 min-h-screen">
           <Navbar />

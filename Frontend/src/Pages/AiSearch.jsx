@@ -27,7 +27,7 @@ export default function AiSearch() {
       setPlaceholderIndex((prevIndex) =>
         prevIndex === placeholders.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000); // Change placeholder every 3 seconds
+    }, 3000); 
 
     return () => clearInterval(interval);
   }, []);
@@ -46,15 +46,12 @@ export default function AiSearch() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Pop the first chunk from the responseChunks array
       const chunk = responseChunks.shift();
       if (chunk) {
-        // Update the response state with the new chunk
         setResponse((prevResponse) => prevResponse + chunk);
       }
-    }, 1000); // Adjust the interval as needed
+    }, 1000); 
 
-    // Clear the interval on component unmount
     return () => clearInterval(interval);
   }, [responseChunks]);
 
@@ -88,15 +85,15 @@ export default function AiSearch() {
       let result = await reader.read();
       while (!result.done) {
         chunks.push(new TextDecoder().decode(result.value));
-        setResponseChunks(chunks); // Update UI with each chunk received
+        setResponseChunks(chunks); 
         result = await reader.read();
       }
-      setIsLoading(false); // Set loading to false once response is received
+      setIsLoading(false); 
     } catch (error) {
       toast.error("Please Try Again")
 
       console.error("Error fetching data:", error);
-      setIsLoading(false); // Set loading to false if there's an error
+      setIsLoading(false); 
     }
   };
 
