@@ -129,7 +129,10 @@ const RecipeDetail = () => {
   const handleLike = async () => {
     try {
       handleLove();
-    
+      if (!token) {
+        toast.error("Please Login First");
+        return;
+      }
       const response = await axios.post('https://foodie-five-pi.vercel.app/like', 
         {  recipeId: recipeDetail.idMeal,recipeName:recipeDetail.strMeal },
         {
@@ -144,7 +147,7 @@ const RecipeDetail = () => {
         setLiked(true);
       }
     } catch (error) {
-      toast.error("Please Login First")
+      toast.error("An error occurred while liking the recipe");
 
       console.error('Error liking recipe:', error);
     }
@@ -153,6 +156,7 @@ const RecipeDetail = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
+      <Toaster/>
       {recipeDetail ? (
         <div className="relative flex items-center justify-center  align-middle md:mt-28 md:pt-4">
           <img
