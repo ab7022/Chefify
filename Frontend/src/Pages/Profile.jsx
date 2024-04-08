@@ -106,7 +106,9 @@ const Profile = () => {
             <FaGithub className="text-gray-800 w-10 h-10 mr-4" />
           </a>
           {/* Add more icons for other social media platforms if needed */}
+          <a href="https://www.producthunt.com/posts/chefify?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-chefify" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=449774&theme=light" alt="Chefify - ai&#0032;recipe&#0044;&#0032;chefify&#0044;&#0032;best&#0032;recipes&#0044;&#0032;best&#0032;dishes&#0044;recipe&#0032;website | Product Hunt" /></a>
         </div>
+        
       </div>
       </div>
       <Footer />

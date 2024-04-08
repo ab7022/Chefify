@@ -64,7 +64,7 @@ const Signup = () => {
                 Email Address
               </label>
               <input
-                type="text"
+                type="mail"
                 id="email"
                 name="username"
                 onChange={(e) => {
