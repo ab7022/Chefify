@@ -58,7 +58,7 @@ export default function AiSearch() {
     return () => clearInterval(interval);
   }, [responseChunks]);
 
-  const updatedPrompt = `Welcome to our culinary realm! Please share a food dish you'd like to explore. Provide all the details, ingredients, instructions, and recipe for the ${prompt}. Our discussion will strictly revolve around food, ensuring the most delectable results.`;
+  const updatedPrompt = `Provide ingredients, instructions, and recipe for the ${prompt}. Our discussion will strictly revolve around food, ensuring the most delectable results.`;
 
 
 
@@ -93,6 +93,8 @@ export default function AiSearch() {
       }
       setIsLoading(false); // Set loading to false once response is received
     } catch (error) {
+      toast.error("Please Try Again")
+
       console.error("Error fetching data:", error);
       setIsLoading(false); // Set loading to false if there's an error
     }

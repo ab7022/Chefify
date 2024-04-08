@@ -10,6 +10,7 @@ import {
 import { faStar as regularStar } from "@fortawesome/free-regular-svg-icons";
 import { div } from "prelude-ls";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
 
 const RecipeDetail = () => {
   const { id } = useParams();
@@ -143,28 +144,12 @@ const RecipeDetail = () => {
         setLiked(true);
       }
     } catch (error) {
+      toast.error("Please Login First")
+
       console.error('Error liking recipe:', error);
     }
   };
   
-
-  const handleUnlike = async () => {
-    try {
-      // Call backend endpoint to unlike the recipe
-      const response = await fetch('https://foodie-five-pi.vercel.app/like', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userId, recipeId: recipe.id })
-      });
-      if (response.ok) {
-        setLiked(false);
-      }
-    } catch (error) {
-      console.error('Error unliking recipe:', error);
-    }
-  };
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
